@@ -1,6 +1,6 @@
 // Game Name: Video Poker
 // Programmer Name: Erin Hu
-// Version Number: 
+// Version Number: 0
 
 import arc.*;
 
@@ -11,11 +11,14 @@ public class cpt{
 		// Menu/Navigation Variables
 		char chrMenu;
 		String strName;
+		// Gameplay Setup Variables
+		int intRow = 0; // For deck
+		int intHandRow;
+		int intDeck[][] = new int[52][3];
+		int intPlayer[][] = new int[5][2];
 		// Gameplay Variables
 		String strAllPositions;
 		int intBet;
-		int intDeck[][];
-		int intPlayer[][];
 		// Scoring Variables
 		int intPrize;
 		int intTotal;
@@ -37,8 +40,28 @@ public class cpt{
 			intBet = con.readInt();
 			con.println("TEMP: name - "+strName+". bet - "+intBet);
 			// Array Setup: Deck
-			intDeck = new int[52][3];
-			
+			TextInputFile txtDeck = new TextInputFile("fulldeck.txt");
+			while(txtDeck.eof() == false){
+				intDeck[intRow][0] = txtDeck.readInt();
+				intDeck[intRow][1] = txtDeck.readInt();
+				intDeck[intRow][2] = txtDeck.readInt();
+				intRow = intRow + 1;
+			}
+			txtDeck.close();
+			// Shuffle Deck: Bubble Sort
+			int intShuffleCard;
+			for(intShuffleCard = 0; intShuffleCard <= 51; intShuffleCard++){ 
+				intRow = 0;
+				if(intDeck[intRow][3] < intDeck[intRow][3]){
+				
+				}
+			}
+			// Array Setup: Player's Hand
+				//intRow = 
+			for(intHandRow = 0; intHandRow < 5; intHandRow++){
+				intPlayer[intHandRow][0] = 0; // Card Value
+				intPlayer[intHandRow][1] = 0; // Card Suit
+			}
 		// Else If Statement: Menu Choice - Help
 		}else if(chrMenu == 'h'){
 			con.println("TEMP: player selects help, show help screen");
@@ -71,4 +94,8 @@ public class cpt{
 	// Method: Graphics - Leaderboard
 	public static void leaderboard(Console con){
 	}
+	// Method: Deck Array Setup
+	//public static int[][] deckSetup(Console con){
+		
+	//}
 }
