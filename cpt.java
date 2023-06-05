@@ -7,7 +7,7 @@ import arc.*;
 public class cpt{
 	public static void main(String[] args){
 		// Console
-		Console con = new Console();
+		Console con = new Console("Video Poker", 1280, 720);
 		// Menu/Navigation Variables
 		char chrMenu;
 		String strName;
@@ -49,12 +49,35 @@ public class cpt{
 			}
 			txtDeck.close();
 			// Shuffle Deck: Bubble Sort
-			int intShuffleCard;
-			for(intShuffleCard = 0; intShuffleCard <= 51; intShuffleCard++){ 
-				intRow = 0;
-				if(intDeck[intRow][3] < intDeck[intRow][3]){
-				
+				// Notes:
+			int intCounter; // Counts Cards in Deck
+			int intTemp; // Temp Variable
+			int intBelow;
+			int intCurrent;
+			for(intCounter = 0; intCounter <= ; intCounter++){ 
+				intBelow = intDeck[intCounter + 1][2];
+				intCurrent = intDeck[intCounter][2];
+				if(intBelow > intCurrent){
+					// 
+					intTemp = intDeck[intCounter + 1][2];
+					intDeck[intCounter + 1][2] = intDeck[intRow][2];
+					intDeck[intCounter][2] = intTemp;
+					//
+					intTemp = intDeck[intCounter+1][1];
+					intDeck[intCounter+1][1] = intDeck[intCounter][1];
+					intDeck[intCounter][1] = intTemp;
+					//
+					intTemp = intDeck[intCounter+1][0];
+					intDeck[intCounter+1][0] = intDeck[intCounter][0];
+					intDeck[intCounter][0] = intTemp;
 				}
+			}
+			// Test Printing
+			TextOutputFile txtTest = new TextOutputFile("decktest.txt");
+			for(intCounter = 0; intCounter <= 51; intCounter++){ 
+				txtTest.println(intDeck[intCounter][0]);
+				txtTest.println(intDeck[intCounter][1]);
+				txtTest.println(intDeck[intCounter][2]);
 			}
 			// Array Setup: Player's Hand
 				//intRow = 
@@ -62,6 +85,11 @@ public class cpt{
 				intPlayer[intHandRow][0] = 0; // Card Value
 				intPlayer[intHandRow][1] = 0; // Card Suit
 			}
+			// Player's Hand: Get Cards from Deck
+			// Player Enters Replacement Cards
+			// Grab New Cards, Swap Player's Cards
+			// Calculate Prize Money
+			// Add Prize to Player's Total Money
 		// Else If Statement: Menu Choice - Help
 		}else if(chrMenu == 'h'){
 			con.println("TEMP: player selects help, show help screen");
@@ -94,8 +122,5 @@ public class cpt{
 	// Method: Graphics - Leaderboard
 	public static void leaderboard(Console con){
 	}
-	// Method: Deck Array Setup
-	//public static int[][] deckSetup(Console con){
-		
-	//}
+	// Method: Shuffle Deck
 }
