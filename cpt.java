@@ -11,13 +11,24 @@ public class cpt{
 		// Menu/Navigation Variables
 		char chrMenu;
 		String strName;
-		// Gameplay Setup Variables
-		int intRow = 0; // For deck
+		// Card Setup Variables
+		int intRow = 0; 
 		int intHandRow;
 		int intDeck[][] = new int[52][3];
 		int intPlayer[][] = new int[5][2];
+		// Bubble Sort (Deck Shuffle) Variables
+		int intCounter; 
+		int intCounter2;
+		int intTemp; 
+		int intBelow;
+		int intCurrent;
 		// Gameplay Variables
 		String strAllPositions;
+		String strSwap1;
+		String strSwap2;
+		String strSwap3;
+		String strSwap4;
+		String strSwap5;
 		int intBet;
 		// Scoring Variables
 		int intPrize;
@@ -40,39 +51,40 @@ public class cpt{
 			intBet = con.readInt();
 			con.println("TEMP: name - "+strName+". bet - "+intBet);
 			// Array Setup: Deck
-			TextInputFile txtDeck = new TextInputFile("fulldeck.txt");
+			TextInputFile txtDeck = new TextInputFile("deckwithoutrandom.txt");
 			while(txtDeck.eof() == false){
 				intDeck[intRow][0] = txtDeck.readInt();
+				//con.println(intDeck[intRow][0]);
 				intDeck[intRow][1] = txtDeck.readInt();
-				intDeck[intRow][2] = txtDeck.readInt();
+				//con.println(intDeck[intRow][1]);
+				intDeck[intRow][2] = (int)(Math.random()*100+1);
+				//con.println(intDeck[intRow][2]);
 				intRow = intRow + 1;
+				//con.sleep(500);
 			}
 			txtDeck.close();
 			// Shuffle Deck: Bubble Sort
-				// Notes:
-			int intCounter; // Counts Cards in Deck
-			int intTemp; // Temp Variable
-			int intBelow;
-			int intCurrent;
-			for(intCounter = 0; intCounter <= ; intCounter++){ 
-				intBelow = intDeck[intCounter + 1][2];
-				intCurrent = intDeck[intCounter][2];
-				if(intBelow > intCurrent){
-					// 
-					intTemp = intDeck[intCounter + 1][2];
-					intDeck[intCounter + 1][2] = intDeck[intRow][2];
-					intDeck[intCounter][2] = intTemp;
-					//
-					intTemp = intDeck[intCounter+1][1];
-					intDeck[intCounter+1][1] = intDeck[intCounter][1];
-					intDeck[intCounter][1] = intTemp;
-					//
-					intTemp = intDeck[intCounter+1][0];
-					intDeck[intCounter+1][0] = intDeck[intCounter][0];
-					intDeck[intCounter][0] = intTemp;
+			for(intCounter2 = 0; intCounter2 < 52 - 1; intCounter2++){ 
+				for(intCounter = 0; intCounter < 52 - intCounter2 - 1; intCounter++){
+					intBelow = intDeck[intCounter + 1][2];
+					intCurrent = intDeck[intCounter][2];
+					if(intBelow < intCurrent){
+						// Swap the random integer
+						intTemp = intDeck[intCounter + 1][2];
+						intDeck[intCounter + 1][2] = intDeck[intCounter][2];
+						intDeck[intCounter][2] = intTemp;
+						// Swap the suit
+						intTemp = intDeck[intCounter+1][1];
+						intDeck[intCounter+1][1] = intDeck[intCounter][1];
+						intDeck[intCounter][1] = intTemp;
+						// Swap the value
+						intTemp = intDeck[intCounter+1][0];
+						intDeck[intCounter+1][0] = intDeck[intCounter][0];
+						intDeck[intCounter][0] = intTemp;
+					}
 				}
 			}
-			// Test Printing
+			// Test Printing: Shuffled Deck
 			TextOutputFile txtTest = new TextOutputFile("decktest.txt");
 			for(intCounter = 0; intCounter <= 51; intCounter++){ 
 				txtTest.println(intDeck[intCounter][0]);
@@ -80,13 +92,61 @@ public class cpt{
 				txtTest.println(intDeck[intCounter][2]);
 			}
 			// Array Setup: Player's Hand
-				//intRow = 
 			for(intHandRow = 0; intHandRow < 5; intHandRow++){
-				intPlayer[intHandRow][0] = 0; // Card Value
-				intPlayer[intHandRow][1] = 0; // Card Suit
+				intPlayer[intHandRow][0] = intDeck[intHandRow][0]; // Card Value
+				intPlayer[intHandRow][1] = intDeck[intHandRow][1]; // Card Suit
+				con.println("Card #"+intHandRow+". Value: "+(intPlayer[intHandRow][0])+".	Suite: "+(intPlayer[intHandRow][1]));
 			}
-			// Player's Hand: Get Cards from Deck
 			// Player Enters Replacement Cards
+			
+			/*strSwap1 = substring.strAllPositions(0,1);
+			strSwap2 = substring.strAllPositions(0,1);
+			strSwap3 = substring.strAllPositions(0,1);
+			strSwap4 = substring.strAllPositions(0,1);
+			strSwap5 = substring.strAllPositions(0,1); */
+			// Planning Notes
+				// Example: 0 1 2 3 4
+						 //0123456789
+						 // 0 -> 0,1   2 total 1
+						 // 1 -> 2,3   4 total 3
+						 // 2 -> 4,5   6 total 5
+						 // 3 -> 6,7   8 total 7
+				// Enter entire string
+				// Find string length
+				// Loop. Count variable is (length/2); shows number of card positions needed
+				// Alternative to loop: if statements; easier to program
+				// Substring. Index numbers are (length - 2), (length - 1); takes out individual card position
+				
+			// Variables (move to top after)
+			int intLength;
+				
+			con.println("Enter cards to replace.");
+			strAllPositions = con.readLine();
+			intLength = strAllPositions.length();
+			if(!strAllPositions.equals("-1")){
+				if(intLength == 1){
+					strSwap1 = strAllPositions.substring(0,1);
+				}else if(intLength == 3){
+					strSwap1 = strAllPositions.substring(0,1);
+					strSwap2 = strAllPositions.substring(2,3); 
+				}else if(intLength == 5){
+					strSwap1 = strAllPositions.substring(0,1);
+					strSwap2 = strAllPositions.substring(2,3); 
+					strSwap3 = strAllPositions.substring(4,5);
+				}else if(intLength == 7){
+					strSwap1 = strAllPositions.substring(0,1);
+					strSwap2 = strAllPositions.substring(2,3); 
+					strSwap3 = strAllPositions.substring(4,5);
+					strSwap4 = strAllPositions.substring(6,7);
+				}else if(intLength == 9){
+					strSwap1 = strAllPositions.substring(0,1);
+					strSwap2 = strAllPositions.substring(2,3); 
+					strSwap3 = strAllPositions.substring(4,5);
+					strSwap4 = strAllPositions.substring(6,7);
+					strSwap5 = strAllPositions.substring(8,9);
+				}
+			}
+			con.println(strSwap1+strSwap2);
 			// Grab New Cards, Swap Player's Cards
 			// Calculate Prize Money
 			// Add Prize to Player's Total Money
