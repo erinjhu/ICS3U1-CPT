@@ -2,6 +2,9 @@
 // Programmer Name: Erin Hu
 // Version Number: 0
 
+
+// images in folder: images/filename
+
 import arc.*;
 
 public class cpt{
@@ -53,15 +56,14 @@ public class cpt{
 			intBet = con.readInt();
 			con.println("TEMP: name - "+strName+". bet - "+intBet);
 			// Array Setup: Deck
-			TextInputFile txtDeck = new TextInputFile("deckwithoutrandom.txt");
-			while(txtDeck.eof() == false){
+			TextInputFile txtDeck = new TextInputFile("deckstart.txt");
+			for(intRow = 0; intRow < 51; intRow++){
 				intDeck[intRow][0] = txtDeck.readInt();
 				//con.println(intDeck[intRow][0]);
 				intDeck[intRow][1] = txtDeck.readInt();
 				//con.println(intDeck[intRow][1]);
 				intDeck[intRow][2] = (int)(Math.random()*100+1);
 				//con.println(intDeck[intRow][2]);
-				intRow = intRow + 1;
 				//con.sleep(500);
 			}
 			txtDeck.close();
@@ -87,7 +89,7 @@ public class cpt{
 				}
 			}
 			// Test Printing: Shuffled Deck
-			TextOutputFile txtTest = new TextOutputFile("decktest.txt");
+			TextOutputFile txtTest = new TextOutputFile("deckwithoutrandom.txt");
 			for(intCounter = 0; intCounter <= 51; intCounter++){ 
 				txtTest.println(intDeck[intCounter][0]);
 				txtTest.println(intDeck[intCounter][1]);
@@ -149,7 +151,9 @@ public class cpt{
 					strSwap5 = strAllPositions.substring(8,9);
 				}
 			}
+
 			// Test Printing: Player's Hand
+			con.println("Card #'s to Swap");
 			con.println("strSwap1: "+strSwap1);
 			con.println("strSwap2: "+strSwap2);
 			con.println("strSwap3: "+strSwap3);
@@ -163,7 +167,7 @@ public class cpt{
 			txtTest = new TextOutputFile("decktest.txt");			// Test
 			for(intRemoved = 0; intRemoved <= 51; intRemoved++){
 				if(intRemoved <= 46){
-					// Cards Shift Up
+					// Card Shift Up
 					intDeck[intRemoved][0] = intDeck[intRemoved + 5][0];
 					intDeck[intRemoved][1] = intDeck[intRemoved + 5][1];
 					intDeck[intRemoved][2] = intDeck[intRemoved + 5][2];
@@ -184,26 +188,44 @@ public class cpt{
 			con.println("Cards to Swap: "+strSwap1+strSwap2+strSwap3+strSwap4+strSwap5);
 			intPlayer[0][0] = intDeck[0][0]; // Value
 			con.println("test"+intPlayer[0][0]);
+			// Change strSwap Variables to Integers
+			int intSwap1 = Integer.parseInt(strSwap1);
+			int intSwap2 = Integer.parseInt(strSwap2);
+			int intSwap3 = Integer.parseInt(strSwap3);
+			int intSwap4 = Integer.parseInt(strSwap4);
+			int intSwap5 = Integer.parseInt(strSwap5);
+			
 			// Swap Player's Cards
+			intRemoved = 0;
 			if(!strSwap1.equals("")){
-				intPlayer[0][0] = intDeck[0][0]; // Value
-				intPlayer[0][1] = intDeck[0][1]; // Suit
+				intPlayer[intSwap1][0] = intDeck[intRemoved][0]; // Value
+				intPlayer[intSwap1][1] = intDeck[intRemoved][1]; // Suit
+				intRemoved = intRemoved + 1;
+				con.println("# of cards taken from deck: "+intRemoved);
 			}
 			if(!strSwap2.equals("")){
-				intPlayer[1][0] = intDeck[1][0]; // Value
-				intPlayer[1][1] = intDeck[1][1]; // Suit
+				intPlayer[intSwap2][0] = intDeck[intRemoved][0]; // Value
+				intPlayer[intSwap2][1] = intDeck[intRemoved][1]; // Suit
+				intRemoved = intRemoved + 1;
+				con.println("# of cards taken from deck: "+intRemoved);
 			}
 			if(!strSwap3.equals("")){
-				intPlayer[2][0] = intDeck[2][0]; // Value
-				intPlayer[2][1] = intDeck[2][1]; // Suit
+				intPlayer[intSwap3][0] = intDeck[intRemoved][0]; // Value
+				intPlayer[intSwap3][1] = intDeck[intRemoved][1]; // Suit
+				intRemoved = intRemoved + 1;
+				con.println("# of cards taken from deck: "+intRemoved);
 			}
 			if(!strSwap4.equals("")){
-				intPlayer[3][0] = intDeck[3][0]; // Value
-				intPlayer[3][1] = intDeck[3][1]; // Suit
+				intPlayer[intSwap4][0] = intDeck[intRemoved][0]; // Value
+				intPlayer[intSwap4][1] = intDeck[intRemoved][1]; // Suit
+				intRemoved = intRemoved + 1;
+				con.println("# of cards taken from deck: "+intRemoved);
 			}
 			if(!strSwap5.equals("")){
-				intPlayer[4][0] = intDeck[4][0]; // Value
-				intPlayer[4][1] = intDeck[4][1]; // Suit
+				intPlayer[intSwap5][0] = intDeck[intRemoved][0]; // Value
+				intPlayer[intSwap5][1] = intDeck[intRemoved][1]; // Suit
+				intRemoved = intRemoved + 1;
+				con.println("# of cards taken from deck: "+intRemoved);
 			}
 			// Test Printing: Player's Replaced Hand
 				// Card position	Value	Suit
