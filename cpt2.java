@@ -2,12 +2,12 @@
 // Programmer Name: Erin Hu
 // Version Number: 0
 
-
+// Notes: different from original version because strSwap is an array
 // images in folder: images/filename
 
 import arc.*;
 
-public class cpt{
+public class cpt2{
 	public static void main(String[] args){
 		// Console
 		Console con = new Console("Video Poker", 1280, 720);
@@ -27,6 +27,7 @@ public class cpt{
 		int intCurrent;
 		// Gameplay Variables
 		String strAllPositions;
+		String strSwap[] = new String[5];
 		String strSwap1 = "";
 		String strSwap2 = "";
 		String strSwap3 = "";
@@ -35,6 +36,7 @@ public class cpt{
 		int intBet;
 		int intTestCount;
 		int intRemoved; // Remove Player's Cards from Deck
+		int intSwapCount; // Altering Position # to Keep
 		// Scoring Variables
 		int intPrize;
 		int intTotal;
@@ -130,28 +132,44 @@ public class cpt{
 			if(!strAllPositions.equals("-1")){
 				if(intLength == 1){
 					strSwap1 = strAllPositions.substring(0,1);
+					
+					// fix
+					
+					
+					
+					for(intSwapCount = (intLength - 1); intSwapCount <= 4; intSwapCount++){
+						strSwap[intSwapCount] = "0";
+					}
+					
+					
+					
 				}else if(intLength == 3){
 					strSwap1 = strAllPositions.substring(0,1);
 					strSwap2 = strAllPositions.substring(2,3); 
 					con.println(strSwap2);
+					for(intSwapCount = 2; intSwapCount <= 4; intSwapCount++){
+						strSwap[intSwapCount] = "0";
+					}
 				}else if(intLength == 5){
 					strSwap1 = strAllPositions.substring(0,1);
 					strSwap2 = strAllPositions.substring(2,3); 
 					strSwap3 = strAllPositions.substring(4,5);
+					for(intSwapCount = 3; intSwapCount <= 4; intSwapCount++){
+						strSwap[intSwapCount] = "0";
+					}
 				}else if(intLength == 7){
 					strSwap1 = strAllPositions.substring(0,1);
 					strSwap2 = strAllPositions.substring(2,3); 
 					strSwap3 = strAllPositions.substring(4,5);
 					strSwap4 = strAllPositions.substring(6,7);
+					strSwap[4] = "0";
 				}else if(intLength == 9){
 					strSwap1 = strAllPositions.substring(0,1);
 					strSwap2 = strAllPositions.substring(2,3); 
 					strSwap3 = strAllPositions.substring(4,5);
 					strSwap4 = strAllPositions.substring(6,7);
-					strSwap5 = strAllPositions.substring(8,9);
-				}
+					strSwap5 = strAllPositions.substring(8,9);				
 			}
-
 			// Test Printing: Player's Hand
 			con.println("Card #'s to Swap");
 			con.println("strSwap1: "+strSwap1);
@@ -176,11 +194,7 @@ public class cpt{
 					txtTest.println(intDeck[intRemoved][1]);
 					txtTest.println(intDeck[intRemoved][2]);
 				}
-				
-				
 				// NOTE: make bottom 5 cards represent no value
-			
-			
 			}
 			txtTest.println("cards have been removed");		// Test
 			txtTest.close();
@@ -189,11 +203,28 @@ public class cpt{
 			intPlayer[0][0] = intDeck[0][0]; // Value
 			con.println("test"+intPlayer[0][0]);
 			// Change strSwap Variables to Integers
+			
+			
+			
+			// move to top:
+			int intSwap[] = new int[5];
+			
+			
+			for(intSwapCount = 4; intSwapCount >= 0; intSwapCount--){
+				intSwap[intSwapCount] = Integer.parseInt(strSwap[intSwapCount]);
+			}
+			
+			
+			
+			
 			int intSwap1 = Integer.parseInt(strSwap1);
 			int intSwap2 = Integer.parseInt(strSwap2);
 			int intSwap3 = Integer.parseInt(strSwap3);
 			int intSwap4 = Integer.parseInt(strSwap4);
 			int intSwap5 = Integer.parseInt(strSwap5);
+			
+			
+			
 			
 			// Swap Player's Cards
 			intRemoved = 0;
