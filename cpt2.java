@@ -175,12 +175,10 @@ public class cpt2{
 						intDeck[intRemoved][0] = intDeck[intRemoved + 5][0];
 						intDeck[intRemoved][1] = intDeck[intRemoved + 5][1];
 						intDeck[intRemoved][2] = intDeck[intRemoved + 5][2];
-						System.out.println("Count: "+intRemoved+ "Value: "+intDeck[intRemoved][0]+"	Suit: "+intDeck[intRemoved][1]+"	Rand: "+intDeck[intRemoved][2]);
 					}
+					System.out.println("Count: "+intRemoved+ "	Value: "+intDeck[intRemoved][0]+"	Suit: "+intDeck[intRemoved][1]+"	Rand: "+intDeck[intRemoved][2]);
 					// NOTE: make bottom 5 cards represent no value
 				}
-				// Test Printing: Cards to Swap
-				con.println("Cards to Swap: "+strSwap1+strSwap2+strSwap3+strSwap4+strSwap5);
 				// Change strSwap Variables to Integers
 				for(intSwapCount = 0; intSwapCount <= 4; intSwapCount++){
 					intSwap[intSwapCount] = Integer.parseInt(strSwap[intSwapCount]);
@@ -189,30 +187,56 @@ public class cpt2{
 				// Swap Player's Cards
 				System.out.println("Swapped Cards");
 				for(intSwapCount = 0; intSwapCount <= 4; intSwapCount++){
+					System.out.println("intSwap["+intSwapCount+"] = "+intSwap[intSwapCount]);
 					if(intSwap[intSwapCount] > -1){
 						intPlayer[intSwap[intSwapCount]][0] = intDeck[intSwapCount][0];
 						intPlayer[intSwap[intSwapCount]][1] = intDeck[intSwapCount][1];
-						System.out.println("Card #"+intSwapCount+"	Value: "+(intPlayer[intSwapCount][0])+"	Suite: "+(intPlayer[intSwapCount][1]));
+						System.out.println("Card #"+intSwap[intSwapCount]+"	Value: "+(intPlayer[intSwap[intSwapCount]][0])+"	Suite: "+(intPlayer[intSwap[intSwapCount]][1]));
 					}
 				}									
 				// Test Printing: Player's Replaced Hand
 					// Card position	Value	Suit
 					con.println("Player's New Hand");
 					for(intTestCount = 0; intTestCount < 5; intTestCount++){
-						con.println("Position: "+intTestCount+"	Value: "+(intPlayer[intTestCount][0])+".	Suit: "+(intPlayer[intTestCount][1]));
+						con.println("Card # "+intTestCount+"	Value: "+(intPlayer[intTestCount][0])+".	Suit: "+(intPlayer[intTestCount][1]));
 					}
 				// Calculate Prize Money
 				// Add Prize to Player's Total Money
 			// Else If Statement: Menu Choice - Help
-			}else if(chrMenu == 'h'){
+			}
+			// Calculate Prize Money
+			
+		}else if(chrMenu == 'h'){
 				con.println("TEMP: player selects help, show help screen");
 			// Else If Statement: Menu Choice - High Scores
-			}else if(chrMenu == 'v'){
+		}else if(chrMenu == 'v'){
 				con.println("TEMP: player selects view high scores, show leaderboard");
 			// Else If Statement: Menu Choice - Quit
-			}else if(chrMenu == 'q'){
+		}else if(chrMenu == 'q'){
 				con.println("TEMP: player selects quit, close the game?");
-			}
 		}
 	}
+	public static int jacks(int intPlayer[][]){
+		int intPrize = 0;
+		int intCount;
+		/*for(intCount = 0; intCount < 5; intCount++){
+			if((intCount + 1) <= 4){
+				if(intPlayer[intCount][0] == intPlayer[intCount + 1][0] && intPlayer[intCount][1] == intPlayer[intCount + 1][1]){
+					intPrize = 1;
+				}
+			System.out.println("if"+intPlayer[intCount][0]+ "==" +intPlayer[intCount + 1][0] +"&&"+ intPlayer[intCount][1]+"=="+intPlayer[intCount + 1][1]);
+			}
+		}
+		 */
+		 // Compare Card #0 to Rest of Cards
+		 for(intCount = 1; intCount < 5; intCouunt++){
+			if(intPlayer[0][0] == intPlayer[intCount][0] && intPlayer[0][1] == intPlayer[intCount][1]){
+			}
+		 }
+		 // Compare Card #1 to Rest of Cards
+		 // Compare Card #2 to Rest of Cards
+		 // Compare Card #3 to Rest of Cards
+		return intPrize;
+	}
 }
+
