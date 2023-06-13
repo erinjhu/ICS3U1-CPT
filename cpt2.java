@@ -36,7 +36,8 @@ public class cpt2{
 		int intBet;
 		int intTestCount;
 		int intRemoved; // Remove Player's Cards from Deck
-		int intSwapCount; // Altering Position # to Keep
+		int intSwapCount; // Count Variable for For Loop
+		int intSwap[] = new int[5];
 		// Scoring Variables
 		int intPrize;
 		int intTotal;
@@ -61,13 +62,10 @@ public class cpt2{
 			TextInputFile txtDeck = new TextInputFile("deckstart.txt");
 			System.out.println("Starting Deck, Unshuffled");
 			for(intRow = 0; intRow < 52; intRow++){
-				System.out.println("intRow: "+intRow);
 				intDeck[intRow][0] = txtDeck.readInt();
-				System.out.println(intDeck[intRow][0]);
 				intDeck[intRow][1] = txtDeck.readInt();
-				System.out.println(intDeck[intRow][1]);
 				intDeck[intRow][2] = (int)(Math.random()*100+1);
-				System.out.println(intDeck[intRow][2]);
+				System.out.println("intRow: "+intRow+"	Value: "+intDeck[intRow][0]+"	Suit: "+intDeck[intRow][1]+"	Rand: "+intDeck[intRow][2]);
 			}
 			txtDeck.close();
 			// Shuffle Deck: Bubble Sort
@@ -94,9 +92,7 @@ public class cpt2{
 			// Test Printing: Shuffled Deck
 			System.out.println("Shuffled Deck");
 			for(intCounter = 0; intCounter <= 51; intCounter++){ 
-				System.out.println(intDeck[intCounter][0]);
-				System.out.println(intDeck[intCounter][1]);
-				System.out.println("Random int: "+intDeck[intCounter][2]);
+				System.out.println("Value: "+intDeck[intCounter][0]+"	Suit: "+intDeck[intCounter][1]+"	Rand: "+intDeck[intCounter][2]);
 			}
 			// Array Setup: Player's Hand
 			for(intHandRow = 0; intHandRow < 5; intHandRow++){
@@ -123,180 +119,100 @@ public class cpt2{
 				// Loop. Count variable is (length/2); shows number of card positions needed
 				// Alternative to loop: if statements; easier to program
 				// Substring. Index numbers are (length - 2), (length - 1); takes out individual card position
-				
 			// Variables (move to top after)
 			int intLength;
 			con.println("Enter cards to replace.");
 			strAllPositions = con.readLine();
+			System.out.println("strAllPositions: "+strAllPositions);
 			intLength = strAllPositions.length();
 			if(!strAllPositions.equals("-1")){
 				if(intLength == 1){
-					strSwap1 = strAllPositions.substring(0,1);
-					
-					// fix
-					
-					
-					
-					for(intSwapCount = (intLength - 1); intSwapCount <= 4; intSwapCount++){
-						strSwap[intSwapCount] = "0";
+					strSwap[0] = strAllPositions.substring(0,1);
+					for(intSwapCount = 0; intSwapCount <= 4; intSwapCount++){
+						strSwap[intSwapCount] = "-1";
 					}
-					
-					
-					
 				}else if(intLength == 3){
-					strSwap1 = strAllPositions.substring(0,1);
-					strSwap2 = strAllPositions.substring(2,3); 
+					strSwap[0] = strAllPositions.substring(0,1);
+					strSwap[1] = strAllPositions.substring(2,3); 
 					con.println(strSwap2);
 					for(intSwapCount = 2; intSwapCount <= 4; intSwapCount++){
-						strSwap[intSwapCount] = "0";
+						strSwap[intSwapCount] = "-1";
 					}
 				}else if(intLength == 5){
-					strSwap1 = strAllPositions.substring(0,1);
-					strSwap2 = strAllPositions.substring(2,3); 
-					strSwap3 = strAllPositions.substring(4,5);
+					strSwap[0] = strAllPositions.substring(0,1);
+					strSwap[1] = strAllPositions.substring(2,3); 
+					strSwap[2] = strAllPositions.substring(4,5);
 					for(intSwapCount = 3; intSwapCount <= 4; intSwapCount++){
-						strSwap[intSwapCount] = "0";
+						strSwap[intSwapCount] = "-1";
 					}
 				}else if(intLength == 7){
-					strSwap1 = strAllPositions.substring(0,1);
-					strSwap2 = strAllPositions.substring(2,3); 
-					strSwap3 = strAllPositions.substring(4,5);
-					strSwap4 = strAllPositions.substring(6,7);
-					strSwap[4] = "0";
+					strSwap[0] = strAllPositions.substring(0,1);
+					strSwap[1] = strAllPositions.substring(2,3); 
+					strSwap[2] = strAllPositions.substring(4,5);
+					strSwap[3] = strAllPositions.substring(6,7);
+					strSwap[4] = "-1";
 				}else if(intLength == 9){
-					strSwap1 = strAllPositions.substring(0,1);
-					strSwap2 = strAllPositions.substring(2,3); 
-					strSwap3 = strAllPositions.substring(4,5);
-					strSwap4 = strAllPositions.substring(6,7);
-					strSwap5 = strAllPositions.substring(8,9);				
-			}
-			// Test Printing: Player's Hand
-			con.println("Card #'s to Swap");
-			con.println("strSwap1: "+strSwap1);
-			con.println("strSwap2: "+strSwap2);
-			con.println("strSwap3: "+strSwap3);
-			con.println("strSwap4: "+strSwap4);
-			con.println("strSwap5: "+strSwap5);
-			con.println("Player's Hand");
-			for(intTestCount = 0; intTestCount < 5; intTestCount++){
-					con.println("Position: "+intTestCount+"	Value: "+(intPlayer[intTestCount][0])+".	Suit: "+(intPlayer[intTestCount][1]));
-			}
-			// Remove Player's Cards from Deck
-			TextOutputFile txtTest = new TextOutputFile("decktest.txt");			// Test
-			for(intRemoved = 0; intRemoved <= 51; intRemoved++){
-				if(intRemoved <= 46){
-					// Card Shift Up
-					intDeck[intRemoved][0] = intDeck[intRemoved + 5][0];
-					intDeck[intRemoved][1] = intDeck[intRemoved + 5][1];
-					intDeck[intRemoved][2] = intDeck[intRemoved + 5][2];
-					// Print New Deck to Text File
-					txtTest.println(intDeck[intRemoved][0]);
-					txtTest.println(intDeck[intRemoved][1]);
-					txtTest.println(intDeck[intRemoved][2]);
+					strSwap[0] = strAllPositions.substring(0,1);
+					strSwap[1] = strAllPositions.substring(2,3); 
+					strSwap[2] = strAllPositions.substring(4,5);
+					strSwap[3] = strAllPositions.substring(6,7);
+					strSwap[4] = strAllPositions.substring(8,9);				
 				}
-				// NOTE: make bottom 5 cards represent no value
-			}
-			txtTest.println("cards have been removed");		// Test
-			txtTest.close();
-			// Test Printing: Cards to Swap
-			con.println("Cards to Swap: "+strSwap1+strSwap2+strSwap3+strSwap4+strSwap5);
-			intPlayer[0][0] = intDeck[0][0]; // Value
-			con.println("test"+intPlayer[0][0]);
-			// Change strSwap Variables to Integers
-			
-			
-			
-			// move to top:
-			int intSwap[] = new int[5];
-			
-			
-			for(intSwapCount = 4; intSwapCount >= 0; intSwapCount--){
-				intSwap[intSwapCount] = Integer.parseInt(strSwap[intSwapCount]);
-			}
-			
-			
-			
-			
-			int intSwap1 = Integer.parseInt(strSwap1);
-			int intSwap2 = Integer.parseInt(strSwap2);
-			int intSwap3 = Integer.parseInt(strSwap3);
-			int intSwap4 = Integer.parseInt(strSwap4);
-			int intSwap5 = Integer.parseInt(strSwap5);
-			
-			
-			
-			
-			// Swap Player's Cards
-			intRemoved = 0;
-			if(!strSwap1.equals("")){
-				intPlayer[intSwap1][0] = intDeck[intRemoved][0]; // Value
-				intPlayer[intSwap1][1] = intDeck[intRemoved][1]; // Suit
-				intRemoved = intRemoved + 1;
-				con.println("# of cards taken from deck: "+intRemoved);
-			}
-			if(!strSwap2.equals("")){
-				intPlayer[intSwap2][0] = intDeck[intRemoved][0]; // Value
-				intPlayer[intSwap2][1] = intDeck[intRemoved][1]; // Suit
-				intRemoved = intRemoved + 1;
-				con.println("# of cards taken from deck: "+intRemoved);
-			}
-			if(!strSwap3.equals("")){
-				intPlayer[intSwap3][0] = intDeck[intRemoved][0]; // Value
-				intPlayer[intSwap3][1] = intDeck[intRemoved][1]; // Suit
-				intRemoved = intRemoved + 1;
-				con.println("# of cards taken from deck: "+intRemoved);
-			}
-			if(!strSwap4.equals("")){
-				intPlayer[intSwap4][0] = intDeck[intRemoved][0]; // Value
-				intPlayer[intSwap4][1] = intDeck[intRemoved][1]; // Suit
-				intRemoved = intRemoved + 1;
-				con.println("# of cards taken from deck: "+intRemoved);
-			}
-			if(!strSwap5.equals("")){
-				intPlayer[intSwap5][0] = intDeck[intRemoved][0]; // Value
-				intPlayer[intSwap5][1] = intDeck[intRemoved][1]; // Suit
-				intRemoved = intRemoved + 1;
-				con.println("# of cards taken from deck: "+intRemoved);
-			}
-			// Test Printing: Player's Replaced Hand
-				// Card position	Value	Suit
-				con.println("Player's New Hand");
+				// Test Printing: Player's Hand
+				System.out.println("Card #'s to Swap");
+				for(intSwapCount = 0; intSwapCount <= 4; intSwapCount++){
+					System.out.println("strSwap["+intSwapCount+"]: "+strSwap[intSwapCount]);
+				}
+				System.out.println("Player's Current Hand");
 				for(intTestCount = 0; intTestCount < 5; intTestCount++){
-					con.println("Position: "+intTestCount+"	Value: "+(intPlayer[intTestCount][0])+".	Suit: "+(intPlayer[intTestCount][1]));
+						System.out.println("Position: "+intTestCount+"	Value: "+(intPlayer[intTestCount][0])+"	Suit: "+(intPlayer[intTestCount][1]));
 				}
-			// Calculate Prize Money
-			// Add Prize to Player's Total Money
-		// Else If Statement: Menu Choice - Help
-		}else if(chrMenu == 'h'){
-			con.println("TEMP: player selects help, show help screen");
-		// Else If Statement: Menu Choice - High Scores
-		}else if(chrMenu == 'v'){
-			con.println("TEMP: player selects view high scores, show leaderboard");
-		// Else If Statement: Menu Choice - Quit
-		}else if(chrMenu == 'q'){
-			con.println("TEMP: player selects quit, close the game?");
+				// Remove Player's Cards from Deck
+				System.out.println("Deck After Removed Cards");
+				for(intRemoved = 0; intRemoved <= 51; intRemoved++){
+					if(intRemoved <= 46){
+						// Card Shift Up
+						intDeck[intRemoved][0] = intDeck[intRemoved + 5][0];
+						intDeck[intRemoved][1] = intDeck[intRemoved + 5][1];
+						intDeck[intRemoved][2] = intDeck[intRemoved + 5][2];
+						System.out.println("Count: "+intRemoved+ "Value: "+intDeck[intRemoved][0]+"	Suit: "+intDeck[intRemoved][1]+"	Rand: "+intDeck[intRemoved][2]);
+					}
+					// NOTE: make bottom 5 cards represent no value
+				}
+				// Test Printing: Cards to Swap
+				con.println("Cards to Swap: "+strSwap1+strSwap2+strSwap3+strSwap4+strSwap5);
+				// Change strSwap Variables to Integers
+				for(intSwapCount = 0; intSwapCount <= 4; intSwapCount++){
+					intSwap[intSwapCount] = Integer.parseInt(strSwap[intSwapCount]);
+					System.out.println("intSwap["+intSwapCount+"] = "+intSwap[intSwapCount]);
+				}
+				// Swap Player's Cards
+				System.out.println("Swapped Cards");
+				for(intSwapCount = 0; intSwapCount <= 4; intSwapCount++){
+					if(intSwap[intSwapCount] > -1){
+						intPlayer[intSwap[intSwapCount]][0] = intDeck[intSwapCount][0];
+						intPlayer[intSwap[intSwapCount]][1] = intDeck[intSwapCount][1];
+						System.out.println("Card #"+intSwapCount+"	Value: "+(intPlayer[intSwapCount][0])+"	Suite: "+(intPlayer[intSwapCount][1]));
+					}
+				}									
+				// Test Printing: Player's Replaced Hand
+					// Card position	Value	Suit
+					con.println("Player's New Hand");
+					for(intTestCount = 0; intTestCount < 5; intTestCount++){
+						con.println("Position: "+intTestCount+"	Value: "+(intPlayer[intTestCount][0])+".	Suit: "+(intPlayer[intTestCount][1]));
+					}
+				// Calculate Prize Money
+				// Add Prize to Player's Total Money
+			// Else If Statement: Menu Choice - Help
+			}else if(chrMenu == 'h'){
+				con.println("TEMP: player selects help, show help screen");
+			// Else If Statement: Menu Choice - High Scores
+			}else if(chrMenu == 'v'){
+				con.println("TEMP: player selects view high scores, show leaderboard");
+			// Else If Statement: Menu Choice - Quit
+			}else if(chrMenu == 'q'){
+				con.println("TEMP: player selects quit, close the game?");
+			}
 		}
 	}
-	// Method: Graphics - Menu
-	public static void menu(Console con){
-	}
-	// Method: Graphics - Gameplay - Card Selection
-	public static void cardSelection(Console con){
-	}
-	// Method: Graphics - Gameplay - Card Replacement
-	public static void cardReplacement(Console con){
-	}
-	// Method: Graphics - Gameplay - Lose Scenario
-	public static void lose(Console con){
-	}
-	// Method: Graphics - Gameplay - Win Scenario
-	public static void win(Console con){
-	}
-	// Method: Graphics - Help
-	public static void help(Console con){
-	}
-	// Method: Graphics - Leaderboard
-	public static void leaderboard(Console con){
-	}
-	// Method: Shuffle Deck
 }
