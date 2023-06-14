@@ -100,26 +100,7 @@ public class cpt2{
 				intPlayer[intHandRow][1] = intDeck[intHandRow][1]; // Card Suit
 				con.println("Card #"+intHandRow+". Value: "+(intPlayer[intHandRow][0])+".	Suite: "+(intPlayer[intHandRow][1]));
 			}
-			// Player Enters Replacement Cards
 			
-			/*strSwap1 = substring.strAllPositions(0,1);
-			strSwap2 = substring.strAllPositions(0,1);
-			strSwap3 = substring.strAllPositions(0,1);
-			strSwap4 = substring.strAllPositions(0,1);
-			strSwap5 = substring.strAllPositions(0,1); */
-			// Planning Notes
-				// Example: 0 1 2 3 4
-						 //0123456789
-						 // 0 -> 0,1   2 total 1
-						 // 1 -> 2,3   4 total 3
-						 // 2 -> 4,5   6 total 5
-						 // 3 -> 6,7   8 total 7
-				// Enter entire string
-				// Find string length
-				// Loop. Count variable is (length/2); shows number of card positions needed
-				// Alternative to loop: if statements; easier to program
-				// Substring. Index numbers are (length - 2), (length - 1); takes out individual card position
-			// Variables (move to top after)
 			int intLength;
 			con.println("Enter cards to replace.");
 			strAllPositions = con.readLine();
@@ -196,16 +177,22 @@ public class cpt2{
 				}									
 				// Test Printing: Player's Replaced Hand
 					// Card position	Value	Suit
-					con.println("Player's New Hand");
-					for(intTestCount = 0; intTestCount < 5; intTestCount++){
-						con.println("Card # "+intTestCount+"	Value: "+(intPlayer[intTestCount][0])+".	Suit: "+(intPlayer[intTestCount][1]));
-					}
+				con.println("Player's New Hand");
+				for(intTestCount = 0; intTestCount < 5; intTestCount++){
+					con.println("Card # "+intTestCount+"	Value: "+(intPlayer[intTestCount][0])+".	Suit: "+(intPlayer[intTestCount][1]));
+				}
+				// Bubble Sort Player's Hand
+				intPlayer = sortHand(intPlayer); 
+				System.out.println("Player's New Hand, Sorted");
+				for(intTestCount = 0; intTestCount < 5; intTestCount++){
+					System.out.println("Card # "+intTestCount+"	Value: "+(intPlayer[intTestCount][0])+".	Suit: "+(intPlayer[intTestCount][1]));
+				}
 				// Calculate Prize Money
+				intPrize = prize(intPlayer);
+				System.out.println("Final Prize: "+intPrize);
 				// Add Prize to Player's Total Money
 			// Else If Statement: Menu Choice - Help
-			}
-			// Calculate Prize Money
-			
+			}			
 		}else if(chrMenu == 'h'){
 				con.println("TEMP: player selects help, show help screen");
 			// Else If Statement: Menu Choice - High Scores
@@ -216,27 +203,231 @@ public class cpt2{
 				con.println("TEMP: player selects quit, close the game?");
 		}
 	}
-	public static int jacks(int intPlayer[][]){
-		int intPrize = 0;
-		int intCount;
-		/*for(intCount = 0; intCount < 5; intCount++){
-			if((intCount + 1) <= 4){
-				if(intPlayer[intCount][0] == intPlayer[intCount + 1][0] && intPlayer[intCount][1] == intPlayer[intCount + 1][1]){
-					intPrize = 1;
+	// Method: Bubble Sorting Deck
+	public static int[][] sortDeck(int intDeck[][], int intCount){
+		int intBelow;
+		int intCurrent;
+		int intCounter;
+		int intCounter2;
+		int intTemp;
+		for(intCounter2 = 0; intCounter2 < 52 - 1; intCounter2++){ 
+			for(intCounter = 0; intCounter < 52 - intCounter2 - 1; intCounter++){
+				intBelow = intDeck[intCounter + 1][2];
+				intCurrent = intDeck[intCounter][2];
+				if(intBelow < intCurrent){
+					// Swap the random integer
+					intTemp = intDeck[intCounter + 1][2];
+					intDeck[intCounter + 1][2] = intDeck[intCounter][2];
+					intDeck[intCounter][2] = intTemp;
+					// Swap the suit
+					intTemp = intDeck[intCounter+1][1];
+					intDeck[intCounter+1][1] = intDeck[intCounter][1];
+					intDeck[intCounter][1] = intTemp;
+					// Swap the value
+					intTemp = intDeck[intCounter+1][0];
+					intDeck[intCounter+1][0] = intDeck[intCounter][0];
+					intDeck[intCounter][0] = intTemp;
 				}
-			System.out.println("if"+intPlayer[intCount][0]+ "==" +intPlayer[intCount + 1][0] +"&&"+ intPlayer[intCount][1]+"=="+intPlayer[intCount + 1][1]);
 			}
 		}
-		 */
-		 // Compare Card #0 to Rest of Cards
-		 for(intCount = 1; intCount < 5; intCouunt++){
-			if(intPlayer[0][0] == intPlayer[intCount][0] && intPlayer[0][1] == intPlayer[intCount][1]){
-			}
-		 }
-		 // Compare Card #1 to Rest of Cards
-		 // Compare Card #2 to Rest of Cards
-		 // Compare Card #3 to Rest of Cards
-		return intPrize;
+		return intDeck;
 	}
-}
+	// Method: Bubble Sorting Hand
+	public static int[][] sortHand(int intHand[][]){
+		int intBelow;
+		int intCurrent;
+		int intCounter;
+		int intCounter2;
+		int intTemp;
+		for(intCounter2 = 0; intCounter2 < 5 - 1; intCounter2++){ 
+			for(intCounter = 0; intCounter < 5 - intCounter2 - 1; intCounter++){
+				intBelow = intHand[intCounter + 1][0]; // Sort based on card value
+ 				intCurrent = intHand[intCounter][0];
+				if(intBelow < intCurrent){
+					// Swap the suit
+					intTemp = intHand[intCounter+1][1];
+					intHand[intCounter+1][1] = intHand[intCounter][1];
+					intHand[intCounter][1] = intTemp;
+					// Swap the value
+					intTemp = intHand[intCounter+1][0];
+					intHand[intCounter+1][0] = intHand[intCounter][0];
+					intHand[intCounter][0] = intTemp;
+				}
+			}
+		}
+		return intHand;
+	}
+	// Method: Prize Calculation
+	public static int prize(int intPlayer[][]){
+		int intPrize = 0;
+		int intJacks = 0;
+		int intQueens = 0;
+		int intKings = 0;
+		int intCount;
+		int intAdjacent = 0;
+		int intCheck = 0;
+		int intCheck2 = 0; // For Straight
+		int intCheck3 = 0; // For Flush
+		int intCheck4 = 0; // For Royal Flush
+		int intSuit = 0;
+		boolean blnNoMatch = false;
+		boolean blnSF = false; // Signifies if hand is a straight flush
+		// Royal Flush
+		if(intPrize == 0){
+			// Reset check variables
+			intAdjacent = 0;
+			intCheck = 0;
+			// Check for 1 (Ace)
+			if(intPlayer[0][0] == 1){
+				intCheck = 1;
+			}
+			// Check for 10-13 (10 to King)
+			for(intCount = 1; intCount < 4; intCount++){
+				if(intPlayer[intCount][0] == (intPlayer[intCount + 1][0] - 1)){
+					intCheck = intCheck + 1;
+				}
+			}
+			// If it is straight, check if the suits match
+			if(intCheck == 4){
+				for(intCount = 1; intCount <= 4; intCount++){
+					if(intPlayer[0][1] == intPlayer[intCount][1]){
+						intCheck = intCheck + 1;
+					}else{
+						intCheck = 0;
+					}
+				}
+				// If it is a straight flush, check if it is royal
+				if(intCheck == 8){
+						intPrize = 800;
+						System.out.println("RF A Prize: "+intPrize);
+				}
+			}
+		}
+		// Straight Flush
+		if(intPrize == 0){
+			// Check if it is a flush
+			for(intCount = 0; intCount <= 3; intCount++){
+				if(intPlayer[intCount][0] == (intPlayer[intCount + 1][0] - 1)){
+					intAdjacent = intAdjacent + 1;
+				}else if(intPlayer[intCount][0] == 13 && intPlayer[intCount + 1][0] == 1){
+					intAdjacent = intAdjacent + 1;
+				}
+			}
+			// If it is a flush, check if the suits match
+			if(intAdjacent == 4){
+				for(intCount = 1; intCount <= 4; intCount++){
+					if(intPlayer[0][1] == intPlayer[intCount][1]){
+						intCheck = intCheck + 1;
+					}else{
+						intCheck = 0;
+					}
+				}
+				if(intCheck == 4){
+					intPrize = 50;
+					System.out.println("SF Prize: "+intPrize);
+				}
+			}
+		}
+		// Full House
+		if(intPrize == 0){	
+			if(intPlayer[0][0] == intPlayer[1][0] && intPlayer[0][0] == intPlayer[2][0] && intPlayer[3][0] == intPlayer[4][0]){
+				intPrize = 9;
+				System.out.println("FH Prize: "+intPrize);
+			}else if(intPlayer[2][0] == intPlayer[3][0] && intPlayer[3][0] == intPlayer[4][0] && intPlayer[1][0] == intPlayer[2][0]){
+				intPrize = 9;
+				System.out.println("FH Prize: "+intPrize);
+			}
+		}
+		// Two Pair
+		if(intPrize == 0){
+			if(intPlayer[0][0] == intPlayer[1][0] && intPlayer[2][0] == intPlayer[3][0] && intPlayer[0][0] != intPlayer[1][0]){
+				intPrize = 2;
+				System.out.println("2P Prize: "+intPrize);
+			}else if(intPlayer[1][0] == intPlayer[2][0] && intPlayer[3][0] == intPlayer[4][0] && intPlayer[2][0] != intPlayer[3][0]){
+				intPrize = 2;
+				System.out.println("2P Prize: "+intPrize);
+			}
+		}
+		// Jacks or Better
+		if(intPrize == 0){
+			for(intCount = 0; intCount < 5; intCount++){
+				if(intPlayer[intCount][0] == 11){
+					intJacks = intJacks + 1;
+				}else if(intPlayer[intCount][0] == 12){
+					intQueens = intQueens + 1;
+				}else if(intPlayer[intCount][0] == 13){
+					intKings = intKings + 1;
+				}
+			}
+			if(intJacks == 2 || intQueens == 2 || intKings == 2){
+				intPrize = 1;
+				System.out.println("JoB Prize: "+intPrize);
+			}
+		}
+		// Three of a Kind
+		if(intPrize == 0){	
+			if(intPlayer[0][0] == intPlayer[1][0] && intPlayer[0][0] == intPlayer[2][0] && intPlayer[0][0] != intPlayer[3][0] && intPlayer[0][0] != intPlayer[4][0]){
+				intPrize = 3;
+				System.out.println("3K Prize: "+intPrize);
+			}else if(intPlayer[1][0] == intPlayer[2][0] && intPlayer[1][0] == intPlayer[3][0] && intPlayer[1][0] != intPlayer[0][0] && intPlayer[1][0] != intPlayer[4][0]){
+				intPrize = 3;
+				System.out.println("3K Prize: "+intPrize);
+			}else if(intPlayer[2][0] == intPlayer[3][0] && intPlayer[3][0] == intPlayer[4][0] && intPlayer[1][0] != intPlayer[2][0] && intPlayer[0][0] != intPlayer[2][0]){
+				intPrize = 3;
+				System.out.println("3K Prize: "+intPrize);
+			}
+		}
+		// Straight
+		if(intPrize == 0){
+			for(intCount = 0; intCount <= 3; intCount++){
+				if(intPlayer[intCount][0] == (intPlayer[intCount + 1][0] - 1)){
+					intAdjacent = intAdjacent + 1;
+				}else if(intPlayer[intCount][0] == 13 && intPlayer[intCount + 1][0] == 1){
+					intAdjacent = intAdjacent + 1;
+				}
+			}
+			// Ensure that straight is not a straight flush
+			intCheck2 = 0;
+			if(intAdjacent == 4){
+				intSuit = (intPlayer[0][1] + intPlayer[1][1] + intPlayer[2][1] + intPlayer[3][1] + intPlayer[4][1]) / 5;
+				// If any of the suits are different from the average, that means it is not a flush
+				for(intCount = 0; intCount <= 4; intCount++){
+					if(intPlayer[intCount][1] != intSuit){
+						intCheck2 = intCheck2 + 1;
+					}
+				}
+				if(intCheck2 != 0){
+						intPrize = 4;
+						System.out.println("S Prize: "+intPrize);
+				}
+			}
+		}
+		// Flush
+		if(intPrize == 0){
+			for(intCount = 1; intCount <= 4; intCount++){
+				if(intPlayer[0][1] == intPlayer[intCount][1]){
+					intCheck3 = intCheck3 + 1;
+				}
+			}
+			if(intCheck3 == 4){
+				intPrize = 6;
+				System.out.println("F Prize: "+intPrize);
+			}
+		}
+		// Four of a Kind
+		if(intPrize == 0){	
+			if(intPlayer[0][0] == intPlayer[1][0] && intPlayer[0][0] == intPlayer[2][0] && intPlayer[0][0] == intPlayer[3][0]){
+				intPrize = 25;
+				System.out.println("4K Prize: "+intPrize);
+			}else if(intPlayer[1][0] == intPlayer[2][0] && intPlayer[1][0] == intPlayer[3][0] && intPlayer[1][0] == intPlayer[4][0]){
+				intPrize = 25;
+				System.out.println("4K Prize: "+intPrize);
+			}
+		}
+		
+			return intPrize;
+		}
+	}
+
+
 
