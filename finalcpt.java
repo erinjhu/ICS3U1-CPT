@@ -94,6 +94,17 @@ public class finalcpt{
 				con.println("\n                       How much money do you want to bet? \n                       You may only bet whole number values.\n                       You cannot bet more money than you have.\n");
 				con.print("                       ");
 				intBet = con.readInt();
+				if(intBet > intTotal){
+					while(intBet > intTotal){
+						con.clear();
+						con.println("\n                       Current money: $"+intTotal);
+						con.println("\n                       How much money do you want to bet? \n                       You may only bet whole number values.\n                       You cannot bet more money than you have.\n");
+						con.print("                       ");
+						con.println("\n                       You cannot bet more than you have. Try again.");
+						con.print("                       ");
+						intBet = con.readInt();
+					}
+				}
 				// Array Setup: Deck
 				TextInputFile txtDeck = new TextInputFile("deckstart.txt");
 				System.out.println("Starting Deck, Unshuffled");
@@ -139,8 +150,6 @@ public class finalcpt{
 				}
 				// Console Printing: Player's Starting Hand
 				con.clear();
-				con.setDrawColor(new Color(102, 102, 102));
-				con.fillRect(171, 25, 853, 191);
 				con.println("\n						Player's Hand\n");
 				for(intTestCount = 0; intTestCount < 5; intTestCount++){
 					if(intPlayer[intTestCount][1] == 0){
@@ -164,7 +173,8 @@ public class finalcpt{
 
 				}
 				// Card Replacement
-				con.println("\nEnter the card # for card(s) to replace. If you want to keep all your cards, enter \"-1.\"\nFor multiple cards, put a space between each number.\nExample: 0 1 3");
+				con.println("\n\n                       Enter the card # for card(s) to replace.\n                       If you want to keep all your cards, enter \"-1.\"\n                       For multiple cards, put a space between each number.\n                       Examples: \"0 1 3\" or \"-1\" or \"4\"");
+				con.print("                       ");
 				strAllPositions = con.readLine();
 				System.out.println("strAllPositions: "+strAllPositions);
 				intLength = strAllPositions.length();
@@ -227,12 +237,7 @@ public class finalcpt{
 					intSwap[intSwapCount] = Integer.parseInt(strSwap[intSwapCount]);
 					System.out.println("intSwap["+intSwapCount+"] = "+intSwap[intSwapCount]);
 				}
-				// Check for any values that are outside of -1 to 4
-				//for(intCount = 0; intCount < 5; intCount++){
-					//if(intSwap[intCount] < -1 || intSwap[intCount] > 4){
-						
-					//}
-				//}
+				
 				// Swap Player's Cards
 				System.out.println("Swapped Cards");
 				for(intSwapCount = 0; intSwapCount <= 4; intSwapCount++){
@@ -244,9 +249,10 @@ public class finalcpt{
 					}
 				}
 				// Console Printing: Player's Replaced Hand
+				con.clear();
+				con.repaint();
+				background(con);
 				con.println("						Player's New Hand\n");
-				con.setDrawColor(new Color(102, 102, 102));
-				con.fillRect(171, 310, 853, 191);
 				for(intTestCount = 0; intTestCount < 5; intTestCount++){
 					if(intPlayer[intTestCount][1] == 0){
 						strSuit = "Diamonds";
@@ -340,7 +346,7 @@ public class finalcpt{
 				// Sort Scores
 				strHighScores = sortScores(strHighScores, intLines);
 				// Print Array to Screen
-				con.println("Leaderboard\n");
+				con.println("Leaderboard - Top 10 Players\n");
 				printScores(strHighScores, con);
 				// Navigation
 				con.println("\nPress 'm' to return to menu.");
