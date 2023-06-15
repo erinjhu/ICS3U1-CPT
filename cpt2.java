@@ -7,6 +7,7 @@
 
 import arc.*;
 import java.awt.image.BufferedImage;
+import java.awt.Color;
 
 public class cpt2{
 	public static void main(String[] args){
@@ -40,6 +41,8 @@ public class cpt2{
 		int intRemoved; // Remove Player's Cards from Deck
 		int intSwapCount; // Count Variable for For Loop
 		int intSwap[] = new int[5];
+		String strSuit = "";
+		int intCount;
 		// Scoring Variables
 		int intPrize;
 		int intTotal = 1000;
@@ -51,193 +54,225 @@ public class cpt2{
 		// Menu Selection
 		chrMenu = con.getChar();
 		// If Statement: Menu Choice - Play
-		if(chrMenu == 'p'){
-			con.repaint();
-			con.println("TEMP: player selects play, start gameplay");
-			con.println("What's your name?");
-			strName = con.readLine();
-			con.println("TEMP: default money is $1000");
-			while(chrPlay == 'y'){
-				// Introduction: Username, Default Money, and Betting
+		while(chrMenu != 'q'){
+			while(chrMenu == 'p'){
+				con.repaint();
+				//con.println("TEMP: player selects play, start gameplay");
+				background(con);
+				con.println("\n\n\n\n\n\n\n                       What's your name?");
+				strName = con.readLine();
+				con.println("                       You have $1000");
+				while(chrPlay == 'y'){
+					// Introduction: Username, Default Money, and Betting
+					con.clear();
+					con.println("Current money: $"+intTotal);
+					con.println("\nHow much money do you want to bet? \nYou may only bet whole number values.\nYou cannot bet more money than you have.\n");
+					intBet = con.readInt();
+					con.clear();
+					//con.println("TEMP: name - "+strName+". bet - "+intBet);
+					// Array Setup: Deck
+					TextInputFile txtDeck = new TextInputFile("deckstart.txt");
+					System.out.println("Starting Deck, Unshuffled");
+					for(intRow = 0; intRow < 52; intRow++){
+						intDeck[intRow][0] = txtDeck.readInt();
+						intDeck[intRow][1] = txtDeck.readInt();
+						intDeck[intRow][2] = (int)(Math.random()*100+1);
+						System.out.println("intRow: "+intRow+"	Value: "+intDeck[intRow][0]+"	Suit: "+intDeck[intRow][1]+"	Rand: "+intDeck[intRow][2]);
+					}
+					txtDeck.close();
+					// Shuffle Deck: Bubble Sort
+					for(intCounter2 = 0; intCounter2 < 52 - 1; intCounter2++){ 
+						for(intCounter = 0; intCounter < 52 - intCounter2 - 1; intCounter++){
+							intBelow = intDeck[intCounter + 1][2];
+							intCurrent = intDeck[intCounter][2];
+							if(intBelow < intCurrent){
+								// Swap the random integer
+								intTemp = intDeck[intCounter + 1][2];
+								intDeck[intCounter + 1][2] = intDeck[intCounter][2];
+								intDeck[intCounter][2] = intTemp;
+								// Swap the suit
+								intTemp = intDeck[intCounter+1][1];
+								intDeck[intCounter+1][1] = intDeck[intCounter][1];
+								intDeck[intCounter][1] = intTemp;
+								// Swap the value
+								intTemp = intDeck[intCounter+1][0];
+								intDeck[intCounter+1][0] = intDeck[intCounter][0];
+								intDeck[intCounter][0] = intTemp;
+							}
+						}
+					}
+					// Test Printing: Shuffled Deck
+					System.out.println("Shuffled Deck");
+					for(intCounter = 0; intCounter <= 51; intCounter++){ 
+						System.out.println("Value: "+intDeck[intCounter][0]+"	Suit: "+intDeck[intCounter][1]+"	Rand: "+intDeck[intCounter][2]);
+					}
+					// Array Setup: Player's Hand
+					con.println("");
+					for(intHandRow = 0; intHandRow < 5; intHandRow++){
+						intPlayer[intHandRow][0] = intDeck[intHandRow][0]; // Card Value
+						intPlayer[intHandRow][1] = intDeck[intHandRow][1]; // Card Suit
+						System.out.println("Card #"+intHandRow+" Value: "+(intPlayer[intHandRow][0])+"	Suit: "+(intPlayer[intHandRow][1]));
+					}
+					int intLength;
+					// Console Printing: Player's Starting Hand
+					con.setDrawColor(new Color(102, 102, 102));
+					con.fillRect(171, 30, 853, 191);
+					con.println("\n						Player's Hand\n");
+					for(intTestCount = 0; intTestCount < 5; intTestCount++){
+						if(intPlayer[intTestCount][1] == 0){
+							strSuit = "Diamonds";
+						}else if(intPlayer[intTestCount][1] == 1){
+							strSuit = "Clubs";
+						}else if(intPlayer[intTestCount][1] == 2){
+							strSuit = "Hearts";
+						}else{
+							strSuit = "Spades";
+						}
+						con.println("		Card # "+intTestCount+"		Value: "+(intPlayer[intTestCount][0])+"		Suit: "+strSuit);
+					}
+					// Card Replacement
+					con.println("\nEnter cards to replace.");
+					strAllPositions = con.readLine();
+					System.out.println("strAllPositions: "+strAllPositions);
+					intLength = strAllPositions.length();
+					if(!strAllPositions.equals("-1")){
+						if(intLength == 1){
+							strSwap[0] = strAllPositions.substring(0,1);
+							for(intSwapCount = 1; intSwapCount <= 4; intSwapCount++){
+								strSwap[intSwapCount] = "-1";
+							}
+						}else if(intLength == 3){
+							strSwap[0] = strAllPositions.substring(0,1);
+							strSwap[1] = strAllPositions.substring(2,3); 
+							con.println(strSwap2);
+							for(intSwapCount = 2; intSwapCount <= 4; intSwapCount++){
+								strSwap[intSwapCount] = "-1";
+							}
+						}else if(intLength == 5){
+							strSwap[0] = strAllPositions.substring(0,1);
+							strSwap[1] = strAllPositions.substring(2,3); 
+							strSwap[2] = strAllPositions.substring(4,5);
+							for(intSwapCount = 3; intSwapCount <= 4; intSwapCount++){
+								strSwap[intSwapCount] = "-1";
+							}
+						}else if(intLength == 7){
+							strSwap[0] = strAllPositions.substring(0,1);
+							strSwap[1] = strAllPositions.substring(2,3); 
+							strSwap[2] = strAllPositions.substring(4,5);
+							strSwap[3] = strAllPositions.substring(6,7);
+							strSwap[4] = "-1";
+						}else if(intLength == 9){
+							strSwap[0] = strAllPositions.substring(0,1);
+							strSwap[1] = strAllPositions.substring(2,3); 
+							strSwap[2] = strAllPositions.substring(4,5);
+							strSwap[3] = strAllPositions.substring(6,7);
+							strSwap[4] = strAllPositions.substring(8,9);				
+						}
+						
+						System.out.println("Player's Current Hand");
+						for(intTestCount = 0; intTestCount < 5; intTestCount++){
+							System.out.println("Position: "+intTestCount+"	Value: "+(intPlayer[intTestCount][0])+"	Suit: "+(intPlayer[intTestCount][1]));
+						}
+						// Remove Player's Cards from Deck
+						System.out.println("Deck After Removed Cards");
+						for(intRemoved = 0; intRemoved <= 51; intRemoved++){
+							if(intRemoved <= 46){
+								// Card Shift Up
+								intDeck[intRemoved][0] = intDeck[intRemoved + 5][0];
+								intDeck[intRemoved][1] = intDeck[intRemoved + 5][1];
+								intDeck[intRemoved][2] = intDeck[intRemoved + 5][2];
+							}
+							System.out.println("Count: "+intRemoved+ "	Value: "+intDeck[intRemoved][0]+"	Suit: "+intDeck[intRemoved][1]+"	Rand: "+intDeck[intRemoved][2]);
+							// NOTE: make bottom 5 cards represent no value
+						}
+						// Change strSwap Variables to Integers
+						for(intSwapCount = 0; intSwapCount <= 4; intSwapCount++){
+							intSwap[intSwapCount] = Integer.parseInt(strSwap[intSwapCount]);
+							System.out.println("intSwap["+intSwapCount+"] = "+intSwap[intSwapCount]);
+						}
+						// Swap Player's Cards
+						System.out.println("Swapped Cards");
+						for(intSwapCount = 0; intSwapCount <= 4; intSwapCount++){
+							System.out.println("intSwap["+intSwapCount+"] = "+intSwap[intSwapCount]);
+							if(intSwap[intSwapCount] > -1){
+								intPlayer[intSwap[intSwapCount]][0] = intDeck[intSwapCount][0];
+								intPlayer[intSwap[intSwapCount]][1] = intDeck[intSwapCount][1];
+								System.out.println("Card #"+intSwap[intSwapCount]+"	Value: "+(intPlayer[intSwap[intSwapCount]][0])+"	Suite: "+(intPlayer[intSwap[intSwapCount]][1]));
+							}
+						}									
+						// Console Printing: Player's Replaced Hand
+						con.println("\n						Player's New Hand\n");
+						con.setDrawColor(new Color(102, 102, 102));
+						con.fillRect(171, 308, 853, 191);
+						for(intTestCount = 0; intTestCount < 5; intTestCount++){
+							if(intPlayer[intTestCount][1] == 0){
+								strSuit = "Diamonds";
+							}else if(intPlayer[intTestCount][1] == 1){
+								strSuit = "Clubs";
+							}else if(intPlayer[intTestCount][1] == 2){
+								strSuit = "Hearts";
+							}else{
+								strSuit = "Spades";
+							}
+							con.println("		Card # "+intTestCount+"		Value: "+(intPlayer[intTestCount][0])+"		Suit: "+strSuit);
+						}
+					}
+					// Bubble Sort Player's Hand
+					intPlayer = sortHand(intPlayer); 
+					System.out.println("Player's New Hand, Sorted");
+					for(intTestCount = 0; intTestCount < 5; intTestCount++){
+						System.out.println("Card # "+intTestCount+"	Value: "+(intPlayer[intTestCount][0])+".	Suit: "+(intPlayer[intTestCount][1]));
+					}
+					// Calculate Prize Money
+					System.out.println("Total Before Win/Loss: "+intTotal);
+					intPrize = prize(intPlayer);
+					System.out.println("Prize #: "+intPrize);
+					intPrizeMoney = intPrize * intBet;
+					System.out.println("Prize #"+intPrize+" * $"+intBet+" bet = "+intPrizeMoney);
+					// Add or Subtract from Player's Total
+					if(intPrize > 0){
+						System.out.println("Player's Winnings: "+intPrizeMoney);
+						con.println("\nYou won $"+intPrizeMoney);
+						intTotal = intTotal + intPrizeMoney;
+					}else if(intPrizeMoney == 0){
+						intTotal = intTotal - intBet;
+						con.println("\nYou lost: $"+intBet);
+					}
+					con.println("Total: $"+intTotal);
+					System.out.println("Player's total (including money gained/lost): "+intTotal);
+					con.println("\nPlay again? (y)es or (no)?");
+					chrPlay = con.getChar();
+					System.out.println("Play again? "+chrPlay);
+				}
+				// Add Player's Name to Leaderboard
+				TextOutputFile txtScores = new TextOutputFile("highscores.txt", true);
+				txtScores.println(strName);
+				txtScores.println(intTotal);
+				System.out.println("Printed to leaderboard: \nName: "+strName+"	Score: $"+intTotal);
+				con.repaint();
 				con.clear();
-				con.println("Current money: "+intTotal);
-				con.println("TEMP: how much money do you want to bet? You may only bet whole number values.\nYou cannot bet more money than you have.");
-				intBet = con.readInt();
-				//con.println("TEMP: name - "+strName+". bet - "+intBet);
-				// Array Setup: Deck
-				TextInputFile txtDeck = new TextInputFile("deckstart.txt");
-				System.out.println("Starting Deck, Unshuffled");
-				for(intRow = 0; intRow < 52; intRow++){
-					intDeck[intRow][0] = txtDeck.readInt();
-					intDeck[intRow][1] = txtDeck.readInt();
-					intDeck[intRow][2] = (int)(Math.random()*100+1);
-					System.out.println("intRow: "+intRow+"	Value: "+intDeck[intRow][0]+"	Suit: "+intDeck[intRow][1]+"	Rand: "+intDeck[intRow][2]);
-				}
-				txtDeck.close();
-				// Shuffle Deck: Bubble Sort
-				for(intCounter2 = 0; intCounter2 < 52 - 1; intCounter2++){ 
-					for(intCounter = 0; intCounter < 52 - intCounter2 - 1; intCounter++){
-						intBelow = intDeck[intCounter + 1][2];
-						intCurrent = intDeck[intCounter][2];
-						if(intBelow < intCurrent){
-							// Swap the random integer
-							intTemp = intDeck[intCounter + 1][2];
-							intDeck[intCounter + 1][2] = intDeck[intCounter][2];
-							intDeck[intCounter][2] = intTemp;
-							// Swap the suit
-							intTemp = intDeck[intCounter+1][1];
-							intDeck[intCounter+1][1] = intDeck[intCounter][1];
-							intDeck[intCounter][1] = intTemp;
-							// Swap the value
-							intTemp = intDeck[intCounter+1][0];
-							intDeck[intCounter+1][0] = intDeck[intCounter][0];
-							intDeck[intCounter][0] = intTemp;
-						}
-					}
-				}
-				// Test Printing: Shuffled Deck
-				System.out.println("Shuffled Deck");
-				for(intCounter = 0; intCounter <= 51; intCounter++){ 
-					System.out.println("Value: "+intDeck[intCounter][0]+"	Suit: "+intDeck[intCounter][1]+"	Rand: "+intDeck[intCounter][2]);
-				}
-				// Array Setup: Player's Hand
-				for(intHandRow = 0; intHandRow < 5; intHandRow++){
-					intPlayer[intHandRow][0] = intDeck[intHandRow][0]; // Card Value
-					intPlayer[intHandRow][1] = intDeck[intHandRow][1]; // Card Suit
-					con.println("Card #"+intHandRow+". Value: "+(intPlayer[intHandRow][0])+".	Suite: "+(intPlayer[intHandRow][1]));
-				}
-				int intLength;
-				con.println("\nEnter cards to replace.");
-				strAllPositions = con.readLine();
-				System.out.println("strAllPositions: "+strAllPositions);
-				intLength = strAllPositions.length();
-				if(!strAllPositions.equals("-1")){
-					if(intLength == 1){
-						strSwap[0] = strAllPositions.substring(0,1);
-						for(intSwapCount = 1; intSwapCount <= 4; intSwapCount++){
-							strSwap[intSwapCount] = "-1";
-						}
-					}else if(intLength == 3){
-						strSwap[0] = strAllPositions.substring(0,1);
-						strSwap[1] = strAllPositions.substring(2,3); 
-						con.println(strSwap2);
-						for(intSwapCount = 2; intSwapCount <= 4; intSwapCount++){
-							strSwap[intSwapCount] = "-1";
-						}
-					}else if(intLength == 5){
-						strSwap[0] = strAllPositions.substring(0,1);
-						strSwap[1] = strAllPositions.substring(2,3); 
-						strSwap[2] = strAllPositions.substring(4,5);
-						for(intSwapCount = 3; intSwapCount <= 4; intSwapCount++){
-							strSwap[intSwapCount] = "-1";
-						}
-					}else if(intLength == 7){
-						strSwap[0] = strAllPositions.substring(0,1);
-						strSwap[1] = strAllPositions.substring(2,3); 
-						strSwap[2] = strAllPositions.substring(4,5);
-						strSwap[3] = strAllPositions.substring(6,7);
-						strSwap[4] = "-1";
-					}else if(intLength == 9){
-						strSwap[0] = strAllPositions.substring(0,1);
-						strSwap[1] = strAllPositions.substring(2,3); 
-						strSwap[2] = strAllPositions.substring(4,5);
-						strSwap[3] = strAllPositions.substring(6,7);
-						strSwap[4] = strAllPositions.substring(8,9);				
-					}
-					// Test Printing: Player's Hand
-					System.out.println("Card #'s to Swap");
-					for(intSwapCount = 0; intSwapCount <= 4; intSwapCount++){
-						System.out.println("strSwap["+intSwapCount+"]: "+strSwap[intSwapCount]);
-					}
-					System.out.println("Player's Current Hand");
-					for(intTestCount = 0; intTestCount < 5; intTestCount++){
-						System.out.println("Position: "+intTestCount+"	Value: "+(intPlayer[intTestCount][0])+"	Suit: "+(intPlayer[intTestCount][1]));
-					}
-					// Remove Player's Cards from Deck
-					System.out.println("Deck After Removed Cards");
-					for(intRemoved = 0; intRemoved <= 51; intRemoved++){
-						if(intRemoved <= 46){
-							// Card Shift Up
-							intDeck[intRemoved][0] = intDeck[intRemoved + 5][0];
-							intDeck[intRemoved][1] = intDeck[intRemoved + 5][1];
-							intDeck[intRemoved][2] = intDeck[intRemoved + 5][2];
-						}
-						System.out.println("Count: "+intRemoved+ "	Value: "+intDeck[intRemoved][0]+"	Suit: "+intDeck[intRemoved][1]+"	Rand: "+intDeck[intRemoved][2]);
-						// NOTE: make bottom 5 cards represent no value
-					}
-					// Change strSwap Variables to Integers
-					for(intSwapCount = 0; intSwapCount <= 4; intSwapCount++){
-						intSwap[intSwapCount] = Integer.parseInt(strSwap[intSwapCount]);
-						System.out.println("intSwap["+intSwapCount+"] = "+intSwap[intSwapCount]);
-					}
-					// Swap Player's Cards
-					System.out.println("Swapped Cards");
-					for(intSwapCount = 0; intSwapCount <= 4; intSwapCount++){
-						System.out.println("intSwap["+intSwapCount+"] = "+intSwap[intSwapCount]);
-						if(intSwap[intSwapCount] > -1){
-							intPlayer[intSwap[intSwapCount]][0] = intDeck[intSwapCount][0];
-							intPlayer[intSwap[intSwapCount]][1] = intDeck[intSwapCount][1];
-							System.out.println("Card #"+intSwap[intSwapCount]+"	Value: "+(intPlayer[intSwap[intSwapCount]][0])+"	Suite: "+(intPlayer[intSwap[intSwapCount]][1]));
-						}
-					}									
-					// Test Printing: Player's Replaced Hand
-						// Card position	Value	Suit
-					con.println("Player's New Hand");
-					for(intTestCount = 0; intTestCount < 5; intTestCount++){
-						con.println("Card # "+intTestCount+"	Value: "+(intPlayer[intTestCount][0])+".	Suit: "+(intPlayer[intTestCount][1]));
-					}
-				}
-				// Bubble Sort Player's Hand
-				intPlayer = sortHand(intPlayer); 
-				System.out.println("Player's New Hand, Sorted");
-				for(intTestCount = 0; intTestCount < 5; intTestCount++){
-					System.out.println("Card # "+intTestCount+"	Value: "+(intPlayer[intTestCount][0])+".	Suit: "+(intPlayer[intTestCount][1]));
-				}
-				// Calculate Prize Money
-				System.out.println("Total Before Win/Loss: "+intTotal);
-				intPrize = prize(intPlayer);
-				System.out.println("Prize #: "+intPrize);
-				intPrizeMoney = intPrize * intBet;
-				System.out.println("Prize #"+intPrize+" * $"+intBet+" bet = "+intPrizeMoney);
-				// Add or Subtract from Player's Total
-				if(intPrize > 0){
-					System.out.println("Player's Winnings: "+intPrizeMoney);
-					con.println("You won $"+intPrizeMoney);
-					intTotal = intTotal + intPrizeMoney;
-				}else if(intPrizeMoney == 0){
-					intTotal = intTotal - intBet;
-				}
-				con.println("\nTotal: $"+intTotal);
-				System.out.println("Player's total (including money gained/lost): "+intTotal);
-				con.println("\nPlay again? (y)es or (no)?");
-				chrPlay = con.getChar();
-				System.out.println("Play again? "+chrPlay);
+				menu(con);
+				chrMenu = con.getChar();
+			// Else If Statement: Menu Choice - Help							
+			}if(chrMenu == 'h'){
+				con.println("TEMP: player selects help, show help screen");
+			// Else If Statement: Menu Choice - High Scores
+			}else if(chrMenu == 'v'){
+				con.println("TEMP: player selects view high scores, show leaderboard");
+				// Find Number of Scores
+				intLines = countScores();
+				System.out.println("Lines: "+intLines);
+				// Read Scores Into Array
+				strHighScores = loadScores(intLines);
+				// Sort Scores
+				strHighScores = sortScores(strHighScores, intLines);
+				// Print Array to Screen
+				con.println("Leaderboard");
+				printScores(strHighScores, intLines, con);
+			// Else If Statement: Menu Choice - Quit
 			}
-			// Add Player's Name to Leaderboard
-			TextOutputFile txtScores = new TextOutputFile("highscores.txt", true);
-			txtScores.println(strName);
-			txtScores.println(intTotal);
-			System.out.println("Printed to leaderboard: \nName: "+strName+"	Score: $"+intTotal);
-		// Else If Statement: Menu Choice - Help							
-		}else if(chrMenu == 'h'){
-			con.println("TEMP: player selects help, show help screen");
-		// Else If Statement: Menu Choice - High Scores
-		}else if(chrMenu == 'v'){
-			con.println("TEMP: player selects view high scores, show leaderboard");
-			// Find Number of Scores
-			intLines = countScores();
-			System.out.println("Lines: "+intLines);
-			// Read Scores Into Array
-			strHighScores = loadScores(intLines);
-			// Sort Scores
-			strHighScores = sortScores(strHighScores, intLines);
-			// Print Array to Screen
-			con.println("Leaderboard");
-			printScores(strHighScores, intLines, con);
-		// Else If Statement: Menu Choice - Quit
-		}else if(chrMenu == 'q'){
-			con.println("TEMP: player selects quit, close the game?");
 		}
+		con.println("Player has quit game");
 	}
 	
 	// Menu
@@ -245,7 +280,11 @@ public class cpt2{
 		BufferedImage imgMenu = con.loadImage("Menu.jpg");
 		con.drawImage(imgMenu, 0, 0);
 	}
-	
+	// Name
+	public static void background(Console con){
+		BufferedImage imgMenu = con.loadImage("Background.png");
+		con.drawImage(imgMenu, 0, 0);
+	}
 	// Method: Bubble Sorting Deck
 	public static int[][] sortDeck(int intDeck[][], int intCount){
 		int intBelow;
