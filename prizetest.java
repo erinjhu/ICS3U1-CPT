@@ -35,7 +35,8 @@ public class prizetest{
 			System.out.println("intRow: "+intRow+"	Value: "+intPlayer[intRow][0]+"	Suit: "+intPlayer[intRow][1]);
 		}
 		
-		intPrize = cpt2.prize(intPlayer);
+		intPrize = finalcpt.prize(intPlayer);
+		System.out.println("Prize #: "+intPrize);
 	
 		
 		

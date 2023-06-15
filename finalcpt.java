@@ -1,10 +1,14 @@
+// Game Name: Video Poker
+// Programmer Name: Erin Hu
+// Version Number: 12
+
 import arc.*;
 import java.awt.image.BufferedImage;
 import java.awt.Color;
 
 public class finalcpt{
 	public static void main(String[] args){
-		
+	
 		// Variables
 		
 		Console con = new Console("Video Poker", 1280, 720);
@@ -40,22 +44,25 @@ public class finalcpt{
 		String strSuit = "";
 		int intCount;
 		int intLength;
+		String strValue = "";
 		// Scoring Variables
 		int intPrize;
 		int intTotal = 1000;
 		int intPrizeMoney;
 		int intLines;
-		String strHighScores[][];
-		
+		String strHighScores[][];	
 		intPage = 0;
 		
 		// Game Loop
 		
-		while(intPage > -1){
+		while(intPage >= -1){
 			
 			// Page 0 - Menu
 			while(intPage == 0){
-				menu(con);
+				con.clear();
+				BufferedImage imgMenu = con.loadImage("Menu.jpg");
+				con.drawImage(imgMenu, 0, 0);
+				con.repaint();
 				chrMenu = con.getChar();
 				if(chrMenu == 'p'){
 					intPage = 1;
@@ -72,7 +79,9 @@ public class finalcpt{
 			while(intPage == 1){
 				background(con);
 				con.println("\n\n\n\n\n\n\n                       What's your name?");
+				con.print("                       ");
 				strName = con.readLine();
+				intTotal = 1000;
 				intPage = 2;
 			}
 			
@@ -83,6 +92,7 @@ public class finalcpt{
 				background(con);
 				con.println("\n                       Current money: $"+intTotal);
 				con.println("\n                       How much money do you want to bet? \n                       You may only bet whole number values.\n                       You cannot bet more money than you have.\n");
+				con.print("                       ");
 				intBet = con.readInt();
 				// Array Setup: Deck
 				TextInputFile txtDeck = new TextInputFile("deckstart.txt");
@@ -142,10 +152,19 @@ public class finalcpt{
 					}else{
 						strSuit = "Spades";
 					}
-					con.println("		Card # "+intTestCount+"		Value: "+(intPlayer[intTestCount][0])+"		Suit: "+strSuit);
+					strValue = intPlayer[intTestCount][0] + "";
+					if(intPlayer[intTestCount][0] == 11){
+						strValue = "Jack";
+					}else if(intPlayer[intTestCount][0] == 12){
+						strValue = "Queen";
+					}else if(intPlayer[intTestCount][0] == 13){
+						strValue = "King";
+					}
+					con.println("		Card # "+intTestCount+"		Value: "+strValue+"		Suit: "+strSuit);
+
 				}
 				// Card Replacement
-				con.println("\nEnter card(s) to replace.\nFor multiple cards, put a space between each number.\nExample: 0 1 3");
+				con.println("\nEnter the card # for card(s) to replace. If you want to keep all your cards, enter \"-1.\"\nFor multiple cards, put a space between each number.\nExample: 0 1 3");
 				strAllPositions = con.readLine();
 				System.out.println("strAllPositions: "+strAllPositions);
 				intLength = strAllPositions.length();
@@ -208,6 +227,12 @@ public class finalcpt{
 					intSwap[intSwapCount] = Integer.parseInt(strSwap[intSwapCount]);
 					System.out.println("intSwap["+intSwapCount+"] = "+intSwap[intSwapCount]);
 				}
+				// Check for any values that are outside of -1 to 4
+				//for(intCount = 0; intCount < 5; intCount++){
+					//if(intSwap[intCount] < -1 || intSwap[intCount] > 4){
+						
+					//}
+				//}
 				// Swap Player's Cards
 				System.out.println("Swapped Cards");
 				for(intSwapCount = 0; intSwapCount <= 4; intSwapCount++){
@@ -232,7 +257,16 @@ public class finalcpt{
 					}else{
 						strSuit = "Spades";
 					}
-					con.println("		Card # "+intTestCount+"		Value: "+(intPlayer[intTestCount][0])+"		Suit: "+strSuit);
+					strValue = intPlayer[intTestCount][0] + "";
+					if(intPlayer[intTestCount][0] == 11){
+						strValue = "Jack";
+					}else if(intPlayer[intTestCount][0] == 12){
+						strValue = "Queen";
+					}else if(intPlayer[intTestCount][0] == 13){
+						strValue = "King";
+					}
+					
+					con.println("		Card # "+intTestCount+"		Value: "+strValue+"		Suit: "+strSuit);
 				}
 				// Bubble Sort Player's Hand
 				intPlayer = sortHand(intPlayer); 
@@ -261,7 +295,11 @@ public class finalcpt{
 				con.println("\nPlay again? (y)es or (n)o?");
 				chrPlay = con.getChar();
 				System.out.println("Play again? "+chrPlay);
-				if(chrPlay == 'n'){
+				if(chrPlay != 'y'){
+					while(chrPlay != 'y' && chrPlay != 'n'){
+						chrPlay = con.getChar();
+					}
+					if(chrPlay == 'n'){
 					TextOutputFile txtScores = new TextOutputFile("highscores.txt", true);
 					txtScores.println(strName);
 					txtScores.println(intTotal);
@@ -269,20 +307,22 @@ public class finalcpt{
 					con.repaint();
 					con.clear();
 					intPage = 4;
+					}
 				}
 			}
 			
 			// Page 3 - Help
 			while(intPage == 3){
 				background(con);
-				con.println("OBJECTIVE\n Bet to win money");
-				con.println("HOW TO PLAY\n 1. Decide which cards you want to swap\n2a. Enter the card numbers, with a space between each one.\n2b. If you want to keep all your cards, enter -1");
+				con.println("OBJECTIVE\nBet to win money");
+				con.println("\nHOW TO PLAY\n1. Decide which cards you want to swap\n2a. Enter the card numbers, with a space between each one.\n2b. If you want to keep all your cards, enter -1");
 				con.println("3. Your winnings will be determined based on your card combinations");
-				con.println("\nYour winnings will be the prize number multiplied by the money you bet.\n");
-				con.println("PRIZE NUMBERS AND POSSIBLE COMBINATIONS");
+				con.println("\nYour winnings will be the prize number multiplied by the money you bet.\nIf you don't win, you lose the money you bet.\n");
 				BufferedImage imgPrize = con.loadImage("Prize Numbers.jpg");
-				con.drawImage(imgPrize,0,0);
-				con.println("Press 'm' to return to menu.");
+				BufferedImage imgHands = con.loadImage("Hands.png");
+				con.drawImage(imgPrize,960,30);
+				con.drawImage(imgHands,40,370);
+				con.println("\nPress 'm' to return to menu.");
 				chrMenu = con.getChar();
 				if(chrMenu == 'm'){
 					intPage = 0;
@@ -292,29 +332,48 @@ public class finalcpt{
 			// Page 4 - High Scores
 			while(intPage == 4){
 				background(con);
-				con.println("4");
+				// Find Number of Scores
+				intLines = countScores();
+				System.out.println("Lines: "+intLines);
+				// Read Scores Into Array
+				strHighScores = loadScores(intLines);
+				// Sort Scores
+				strHighScores = sortScores(strHighScores, intLines);
+				// Print Array to Screen
+				con.println("Leaderboard\n");
+				printScores(strHighScores, con);
+				// Navigation
+				con.println("\nPress 'm' to return to menu.");
+				while(chrMenu != 'm'){
+					chrMenu = con.getChar();
+					System.out.println("Menu navigation: "+chrMenu);
+					if(chrMenu == 'm'){
+						intPage = 0;
+						System.out.println("Next page: "+intPage);
+					}
+				}
 			}
 			
 			// Page 5 - Quit
 			while(intPage == 5){
-				background(con);
-			}
-		
-		}
-		
-		
+				con.closeConsole();
+			}		
+		}	
 	}
 	
 	// Methods
-	
+	// Menu Graphics
 	public static void menu(Console con){
 		BufferedImage imgMenu = con.loadImage("Menu.jpg");
 		con.drawImage(imgMenu, 0, 0);
+		con.repaint();
 	}
+	// Background Graphics
 	public static void background(Console con){
 		BufferedImage imgMenu = con.loadImage("Background.png");
 		con.drawImage(imgMenu, 0, 0);
 	}
+	// Prize Calculation
 	public static int prize(int intPlayer[][]){
 		int intPrize = 0;
 		int intJacks = 0;
@@ -397,7 +456,7 @@ public class finalcpt{
 		}
 		// Two Pair
 		if(intPrize == 0){
-			if(intPlayer[0][0] == intPlayer[1][0] && intPlayer[2][0] == intPlayer[3][0] && intPlayer[0][0] != intPlayer[1][0]){
+			if(intPlayer[0][0] == intPlayer[1][0] && intPlayer[2][0] == intPlayer[3][0] && intPlayer[0][0] != intPlayer[4][0]){
 				intPrize = 2;
 				System.out.println("2P Prize: "+intPrize);
 			}else if(intPlayer[1][0] == intPlayer[2][0] && intPlayer[3][0] == intPlayer[4][0] && intPlayer[2][0] != intPlayer[3][0]){
@@ -535,10 +594,11 @@ public class finalcpt{
 		return strHighScores;
 	}
 	// Print High Scores
-	public static void printScores(String strScores[][], int intCount, Console con){
+	public static void printScores(String strScores[][], Console con){
 		int intRow;
 		con.println(("Name                       ").substring(0, 20) + ("Score                  ").substring(0, 10));
-		for(intRow = 0; intRow < intCount; intRow++){
+		con.println("");
+		for(intRow = 0; intRow < 10; intRow++){
 			con.println((strScores[intRow][0] + "                               ").substring(0, 20) + strScores[intRow][1]);
 		}
 	}
