@@ -5,6 +5,7 @@
 import arc.*;
 import java.awt.image.BufferedImage;
 import java.awt.Color;
+import java.awt.Font;
 
 public class finalcpt{
 	public static void main(String[] args){
@@ -29,7 +30,7 @@ public class finalcpt{
 		int intCurrent;
 		// Gameplay Variables
 		char chrPlay = 'y';
-		String strAllPositions;
+		String strAllPositions = "";
 		String strSwap[] = new String[5];
 		String strSwap1 = "";
 		String strSwap2 = "";
@@ -52,6 +53,8 @@ public class finalcpt{
 		int intLines;
 		String strHighScores[][];	
 		intPage = 0;
+		Font fntMont = con.loadFont("Montserrat SemiBold 600.ttf", 25);
+		con.setTextFont(fntMont);
 		
 		// Game Loop
 		
@@ -73,6 +76,14 @@ public class finalcpt{
 				}else if(chrMenu == 'q'){
 					intPage = 5;
 				}
+				int intX = 1280;
+				for(intCount = 0; intCount <= 172; intCount++){
+					con.setDrawColor(Color.BLUE);
+					con.fillRect(intX,0,1280,720);
+					con.repaint();
+					con.sleep(33);
+					intX = intX - 15;
+				}
 			}
 			
 			// Page 1 - Name and Start
@@ -83,6 +94,7 @@ public class finalcpt{
 				strName = con.readLine();
 				intTotal = 1000;
 				intPage = 2;
+				
 			}
 			
 			// Page 2 - Gameplay
@@ -169,15 +181,67 @@ public class finalcpt{
 					}else if(intPlayer[intTestCount][0] == 13){
 						strValue = "King";
 					}
-					con.println("		Card # "+intTestCount+"		Value: "+strValue+"		Suit: "+strSuit);
+					con.println("Card # "+intTestCount+"	Value: "+strValue+"	Suit: "+strSuit);
 
 				}
-				// Card Replacement
-				con.println("\n\n                       Enter the card # for card(s) to replace.\n                       If you want to keep all your cards, enter \"-1.\"\n                       For multiple cards, put a space between each number.\n                       Examples: \"0 1 3\" or \"-1\" or \"4\"");
-				con.print("                       ");
-				strAllPositions = con.readLine();
-				System.out.println("strAllPositions: "+strAllPositions);
+				// Card Replacement				
+				int intValid = 0;
+				
+				while(intValid == 0){
+					con.clear();
+					con.println("\n		Player's Hand\n");
+					for(intTestCount = 0; intTestCount < 5; intTestCount++){
+						if(intPlayer[intTestCount][1] == 0){
+						strSuit = "Diamonds";
+						}else if(intPlayer[intTestCount][1] == 1){
+							strSuit = "Clubs";
+						}else if(intPlayer[intTestCount][1] == 2){
+							strSuit = "Hearts";
+						}else{
+							strSuit = "Spades";
+						}
+						strValue = intPlayer[intTestCount][0] + "";
+						if(intPlayer[intTestCount][0] == 11){
+							strValue = "Jack";
+						}else if(intPlayer[intTestCount][0] == 12){
+							strValue = "Queen";
+						}else if(intPlayer[intTestCount][0] == 13){
+							strValue = "King";
+						}
+						con.println("	Card # "+intTestCount+"	Value: "+strValue+"	Suit: "+strSuit);
+					}
+					con.println("\n\n                       Enter the card # for card(s) to replace.\n                       If you want to keep all your cards, enter \"-1.\"\n                       For multiple cards, put a space between each number.\n                       Examples: \"0 1 3\" or \"-1\" or \"4\"");
+					con.println("                       Enter valid card number(s).");
+					con.print("                       ");
+					strAllPositions = con.readLine();
+					System.out.println("strAllPositions: "+strAllPositions);
+					intLength = strAllPositions.length();
+					
+					if(intLength == 1){
+						if(strAllPositions.substring(0,1).equals("0") || strAllPositions.substring(0,1).equals("1") || strAllPositions.substring(0,1).equals("2") || strAllPositions.substring(0,1).equals("3") || strAllPositions.substring(0,1).equals("4")){
+							intValid = 1;
+						}
+					}else if(intLength == 3){
+						if(strAllPositions.substring(0,1).equals("0") || strAllPositions.substring(0,1).equals("1") || strAllPositions.substring(0,1).equals("2") || strAllPositions.substring(0,1).equals("3") || strAllPositions.substring(0,1).equals("4") && strAllPositions.substring(2,3).equals("0") || strAllPositions.substring(2,3).equals("1") || strAllPositions.substring(2,3).equals("2") || strAllPositions.substring(2,3).equals("3") || strAllPositions.substring(2,3).equals("4")){
+							intValid = 1;
+						}
+					}else if(intLength == 5){
+						if(strAllPositions.substring(0,1).equals("0") || strAllPositions.substring(0,1).equals("1") || strAllPositions.substring(0,1).equals("2") || strAllPositions.substring(0,1).equals("3") || strAllPositions.substring(0,1).equals("4") && strAllPositions.substring(2,3).equals("0") || strAllPositions.substring(2,3).equals("1") || strAllPositions.substring(2,3).equals("2") || strAllPositions.substring(2,3).equals("3") || strAllPositions.substring(2,3).equals("4") && strAllPositions.substring(4,5).equals("0") || strAllPositions.substring(4,5).equals("1") || strAllPositions.substring(4,5).equals("2") || strAllPositions.substring(4,5).equals("3") || strAllPositions.substring(4,5).equals("4")){
+							intValid = 1;
+						}
+					}else if(intLength == 7){
+						if(strAllPositions.substring(0,1).equals("0") || strAllPositions.substring(0,1).equals("1") || strAllPositions.substring(0,1).equals("2") || strAllPositions.substring(0,1).equals("3") || strAllPositions.substring(0,1).equals("4") && strAllPositions.substring(2,3).equals("0") || strAllPositions.substring(2,3).equals("1") || strAllPositions.substring(2,3).equals("2") || strAllPositions.substring(2,3).equals("3") || strAllPositions.substring(2,3).equals("4") && strAllPositions.substring(4,5).equals("0") || strAllPositions.substring(4,5).equals("1") || strAllPositions.substring(4,5).equals("2") || strAllPositions.substring(4,5).equals("3") || strAllPositions.substring(4,5).equals("4") && strAllPositions.substring(6,7).equals("0") || strAllPositions.substring(6,7).equals("1") || strAllPositions.substring(6,7).equals("2") || strAllPositions.substring(6,7).equals("3") || strAllPositions.substring(6,7).equals("4")){
+							intValid = 1;
+						}
+					}else if(intLength == 9){
+						if(strAllPositions.substring(0,1).equals("0") || strAllPositions.substring(0,1).equals("1") || strAllPositions.substring(0,1).equals("2") || strAllPositions.substring(0,1).equals("3") || strAllPositions.substring(0,1).equals("4") && strAllPositions.substring(2,3).equals("0") || strAllPositions.substring(2,3).equals("1") || strAllPositions.substring(2,3).equals("2") || strAllPositions.substring(2,3).equals("3") || strAllPositions.substring(2,3).equals("4") && strAllPositions.substring(4,5).equals("0") || strAllPositions.substring(4,5).equals("1") || strAllPositions.substring(4,5).equals("2") || strAllPositions.substring(4,5).equals("3") || strAllPositions.substring(4,5).equals("4") && strAllPositions.substring(6,7).equals("0") || strAllPositions.substring(6,7).equals("1") || strAllPositions.substring(6,7).equals("2") || strAllPositions.substring(6,7).equals("3") || strAllPositions.substring(6,7).equals("4") && strAllPositions.substring(8,9).equals("0") || strAllPositions.substring(8,9).equals("1") || strAllPositions.substring(8,9).equals("2") || strAllPositions.substring(8,9).equals("3") || strAllPositions.substring(8,9).equals("4")){
+							intValid = 1;
+						}			
+					}
+				}
 				intLength = strAllPositions.length();
+				
+				
 				if(!strAllPositions.equals("-1")){
 					if(intLength == 1){
 						strSwap[0] = strAllPositions.substring(0,1);
@@ -211,14 +275,20 @@ public class finalcpt{
 						strSwap[3] = strAllPositions.substring(6,7);
 						strSwap[4] = strAllPositions.substring(8,9);				
 					}
-					System.out.println("Player's Current Hand");
+					System.out.println("			Player's Current Hand");
 					for(intTestCount = 0; intTestCount < 5; intTestCount++){
-						System.out.println("Position: "+intTestCount+"	Value: "+(intPlayer[intTestCount][0])+"	Suit: "+(intPlayer[intTestCount][1]));
+						System.out.println("	Position: "+intTestCount+"	Value: "+(intPlayer[intTestCount][0])+"	Suit: "+(intPlayer[intTestCount][1]));
 					}
 				}else{
 					for(intSwapCount = 0; intSwapCount <= 4; intSwapCount++){
 						strSwap[intSwapCount] = "-1";
 					}
+				}
+				
+				// Change strSwap Variables to Integers
+				for(intSwapCount = 0; intSwapCount <= 4; intSwapCount++){
+					intSwap[intSwapCount] = Integer.parseInt(strSwap[intSwapCount]);
+					System.out.println("intSwap["+intSwapCount+"] = "+intSwap[intSwapCount]);
 				}
 				// Remove Player's Cards from Deck
 				System.out.println("Deck After Removed Cards");
@@ -232,12 +302,6 @@ public class finalcpt{
 					System.out.println("Count: "+intRemoved+ "	Value: "+intDeck[intRemoved][0]+"	Suit: "+intDeck[intRemoved][1]+"	Rand: "+intDeck[intRemoved][2]);
 					// NOTE: make bottom 5 cards represent no value
 				}
-				// Change strSwap Variables to Integers
-				for(intSwapCount = 0; intSwapCount <= 4; intSwapCount++){
-					intSwap[intSwapCount] = Integer.parseInt(strSwap[intSwapCount]);
-					System.out.println("intSwap["+intSwapCount+"] = "+intSwap[intSwapCount]);
-				}
-				
 				// Swap Player's Cards
 				System.out.println("Swapped Cards");
 				for(intSwapCount = 0; intSwapCount <= 4; intSwapCount++){
@@ -252,7 +316,7 @@ public class finalcpt{
 				con.clear();
 				con.repaint();
 				background(con);
-				con.println("						Player's New Hand\n");
+				con.println("		Player's New Hand\n");
 				for(intTestCount = 0; intTestCount < 5; intTestCount++){
 					if(intPlayer[intTestCount][1] == 0){
 						strSuit = "Diamonds";
@@ -272,7 +336,7 @@ public class finalcpt{
 						strValue = "King";
 					}
 					
-					con.println("		Card # "+intTestCount+"		Value: "+strValue+"		Suit: "+strSuit);
+					con.println("Card # "+intTestCount+"	Value: "+strValue+"	Suit: "+strSuit);
 				}
 				// Bubble Sort Player's Hand
 				intPlayer = sortHand(intPlayer); 
@@ -289,18 +353,18 @@ public class finalcpt{
 				// Add or Subtract from Player's Total
 				if(intPrize > 0){
 					System.out.println("Player's Winnings: "+intPrizeMoney);
-					con.println("\nYou won $"+intPrizeMoney);
+					con.println("\n                       You won $"+intPrizeMoney);
 					intTotal = intTotal + intPrizeMoney;
 				}else if(intPrizeMoney == 0){
 					intTotal = intTotal - intBet;
-					con.println("\nYou lost: $"+intBet);
+					con.println("\n                       You lost: $"+intBet);
 				}
 				// Total
-				con.println("Total: $"+intTotal);
+				con.println("                       Total: $"+intTotal);
 				System.out.println("Player's total (including money gained/lost): "+intTotal);
-				con.println("\nPlay again? (y)es or (n)o?");
+				con.println("\n                       Play again? (y)es or (n)o?");
 				chrPlay = con.getChar();
-				System.out.println("Play again? "+chrPlay);
+				System.out.println("                       Play again? "+chrPlay);
 				if(chrPlay != 'y'){
 					while(chrPlay != 'y' && chrPlay != 'n'){
 						chrPlay = con.getChar();
