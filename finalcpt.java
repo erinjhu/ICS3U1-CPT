@@ -77,7 +77,7 @@ public class finalcpt{
 					intPage = 5;
 				}
 				int intX = 1280;
-				for(intCount = 0; intCount <= 172; intCount++){
+				for(intCount = 0; intCount <= 86; intCount++){
 					con.setDrawColor(Color.BLUE);
 					con.fillRect(intX,0,1280,720);
 					con.repaint();
