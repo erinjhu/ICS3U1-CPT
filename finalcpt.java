@@ -181,7 +181,7 @@ public class finalcpt{
 					}else if(intPlayer[intTestCount][0] == 13){
 						strValue = "King";
 					}
-					con.println("Card # "+intTestCount+"	Value: "+strValue+"	Suit: "+strSuit);
+					con.println("	Card # "+intTestCount+"	Value: "+strValue+"	Suit: "+strSuit);
 
 				}
 				// Card Replacement				
@@ -336,7 +336,7 @@ public class finalcpt{
 						strValue = "King";
 					}
 					
-					con.println("Card # "+intTestCount+"	Value: "+strValue+"	Suit: "+strSuit);
+					con.println("	Card # "+intTestCount+"	Value: "+strValue+"	Suit: "+strSuit);
 				}
 				// Bubble Sort Player's Hand
 				intPlayer = sortHand(intPlayer); 
@@ -384,6 +384,8 @@ public class finalcpt{
 			// Page 3 - Help
 			while(intPage == 3){
 				background(con);
+				Font fntHelp = con.loadFont("Montserrat SemiBold 600.ttf",20);
+				con.setTextFont(fntHelp);
 				con.println("OBJECTIVE\nBet to win money");
 				con.println("\nHOW TO PLAY\n1. Decide which cards you want to swap\n2a. Enter the card numbers, with a space between each one.\n2b. If you want to keep all your cards, enter -1");
 				con.println("3. Your winnings will be determined based on your card combinations");
@@ -669,7 +671,7 @@ public class finalcpt{
 		con.println(("Name                       ").substring(0, 20) + ("Score                  ").substring(0, 10));
 		con.println("");
 		for(intRow = 0; intRow < 10; intRow++){
-			con.println((strScores[intRow][0] + "                               ").substring(0, 20) + strScores[intRow][1]);
+			con.println((strScores[intRow][0] + "                               ").substring(0, 20) +"	"+strScores[intRow][1]);
 		}
 	}
 	// Bubble Sorting Hand
